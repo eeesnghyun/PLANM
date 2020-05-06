@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="schedule">
+
+	<select id="getSchedule" resultType="ScheduleVO" >
+		SELECT 
+			   SCHNO
+		     , USERID		     
+		     , TITLE
+		     , SCHCONTENT
+		     , SCHTYPE		     
+		     , BGCOLOR
+		     , TXTCOLOR		     
+		     , ALLDAY		     		      
+		     , CASE WHEN ALLDAY='Y' THEN DATE_FORMAT(STR_TO_DATE(STARTDT,'%Y%m%d%H%i'), '%Y-%m-%d')
+	                ELSE DATE_FORMAT(STR_TO_DATE(STARTDT,'%Y%m%d%H%i'), '%Y-%m-%d %H:%i')
+	           END  STARTDT
+		     , CASE WHEN ALLDAY='Y' THEN DATE_FORMAT(STR_TO_DATE(ENDDT,'%Y%m%d%H%i'), '%Y-%m-%d')
+	                ELSE DATE_FORMAT(STR_TO_DATE(ENDDT,'%Y%m%d%H%i'), '%Y-%m-%d %H:%i')
+	           END ENDDT
+		 FROM PM_SCHEDULE
+		WHERE USERID = #{userid}
+	</select>
+
+	<insert id="addSchedule" parameterType="ScheduleVO">
+		<![CDATA[
+		INSERT INTO PM_SCHEDULE
+		VALUES(
+		CONCAT(#{schno}, (SELECT COUNT(*) + 1 
+							FROM PM_SCHEDULE AS A 
+						   WHERE A.USERID = #{userid}
+							 AND SUBSTRING(A.SCHNO,1,8) = #{schno}))
+		, #{userid}
+		, #{title}
+		, #{schContent}
+		, #{schType}		
+		, DATE_FORMAT(STR_TO_DATE(#{startdt},'%Y-%m-%d %H:%i'),'%Y%m%d%H%i')
+		, DATE_FORMAT(STR_TO_DATE(#{enddt},'%Y-%m-%d %H:%i'),'%Y%m%d%H%i')	
+		, #{bgColor}
+		, #{txtColor}
+		, #{allDay}				
+		)
+		]]>
+	</insert>
+
+	<update id="editSchedule" parameterType="ScheduleVO">		
+		<![CDATA[		
+		UPDATE PM_SCHEDULE
+		   SET 
+		   	    title    = #{title}
+		  	  , schcontent  = #{schContent}
+		  	  , schtype  = #{schType}
+		  	  , startdt  = DATE_FORMAT(STR_TO_DATE(#{startdt},'%Y-%m-%d %H:%i'),'%Y%m%d%H%i')
+			  , enddt    = DATE_FORMAT(STR_TO_DATE(#{enddt},'%Y-%m-%d %H:%i'),'%Y%m%d%H%i')
+			  , bgcolor  = #{bgColor}
+			  , txtcolor = #{txtColor}
+			  , allday   = #{allDay}			   
+	     WHERE schno  = #{schno}
+	       AND userid = #{userid}
+		]]>
+	</update>
+		
+	<delete id="deleteSchedule" parameterType="ScheduleVO">
+		<![CDATA[
+		DELETE FROM PM_SCHEDULE	   
+	     WHERE schno = #{schno}
+	       AND userid = #{userid}
+	    ]]>
+	</delete>
+	
+</mapper>

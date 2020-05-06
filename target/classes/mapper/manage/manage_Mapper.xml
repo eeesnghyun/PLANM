@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="manage">
+	
+	<insert id="recordCommuteT" parameterType="hashMap">
+		<![CDATA[
+		INSERT INTO PM_COMMUTE(
+		   CMPCD
+		 , USERCD
+		 , WORKDAY
+		 , TODATE
+		 , FROMDATE
+		 , FIXYN
+		)
+		VALUES(
+		   #{cmpcd}			-- 회사코드
+		 , #{usercd}	    -- 사번
+		 , DATE_FORMAT(#{todate}, '%Y%m%d')	-- 일자
+		 , #{todate}		-- 출근시간
+		 , NULL	
+		 , #{fixyn}		    -- 확정여부
+		)		
+		]]>
+	</insert>
+	
+	<update id="recordCommuteF" parameterType="hashMap">
+		<![CDATA[
+		UPDATE PM_COMMUTE
+		   SET FROMDATE = #{fromdate}
+		 WHERE WORKDAY = (		
+		 				SELECT A.WORKDAY
+						  FROM (
+								SELECT MAX(WORKDAY) WORKDAY
+								 FROM PM_COMMUTE
+								WHERE CMPCD = #{cmpcd}
+								  AND USERCD = #{usercd}
+								  AND FIXYN = 'N'
+								) A
+						)	
+		]]>
+	</update>
+	
+	<select id="getMaxWorkday" resultType="int" parameterType="manageVO">
+	   SELECT COUNT(USERCD) CNT
+		 FROM PM_COMMUTE
+		WHERE CMPCD = #{cmpcd}
+		  AND USERCD = #{usercd} 
+		  AND WORKDAY = (		
+						SELECT MAX(WORKDAY) WORKDAY
+						  FROM PM_COMMUTE
+						 WHERE CMPCD = #{cmpcd}
+						   AND USERCD = #{usercd} 
+						   AND FIXYN = 'N'
+						   AND FROMDATE IS NULL
+						)
+	</select>
+	
+	<select id="getCommuteList" resultType="LowerKeyMap" parameterType="hashMap">
+		<![CDATA[
+		SELECT 
+			  '' AS USERCD
+			, MAX(IF(B.ROWNUM = '01', B.WORKDAY, 0)) AS WORKDAY01
+			, MAX(IF(B.ROWNUM = '02', B.WORKDAY, 0)) AS WORKDAY02
+			, MAX(IF(B.ROWNUM = '03', B.WORKDAY, 0)) AS WORKDAY03
+			, MAX(IF(B.ROWNUM = '04', B.WORKDAY, 0)) AS WORKDAY04
+			, MAX(IF(B.ROWNUM = '05', B.WORKDAY, 0)) AS WORKDAY05
+			, MAX(IF(B.ROWNUM = '06', B.WORKDAY, 0)) AS WORKDAY06
+			, MAX(IF(B.ROWNUM = '07', B.WORKDAY, 0)) AS WORKDAY07
+			, MAX(IF(B.ROWNUM = '08', B.WORKDAY, 0)) AS WORKDAY08
+			, MAX(IF(B.ROWNUM = '09', B.WORKDAY, 0)) AS WORKDAY09
+			, MAX(IF(B.ROWNUM = '10', B.WORKDAY, 0)) AS WORKDAY10
+			, MAX(IF(B.ROWNUM = '11', B.WORKDAY, 0)) AS WORKDAY11
+			, MAX(IF(B.ROWNUM = '12', B.WORKDAY, 0)) AS WORKDAY12
+			, MAX(IF(B.ROWNUM = '13', B.WORKDAY, 0)) AS WORKDAY13
+			, MAX(IF(B.ROWNUM = '14', B.WORKDAY, 0)) AS WORKDAY14
+			, MAX(IF(B.ROWNUM = '15', B.WORKDAY, 0)) AS WORKDAY15
+			, MAX(IF(B.ROWNUM = '16', B.WORKDAY, 0)) AS WORKDAY16
+			, MAX(IF(B.ROWNUM = '17', B.WORKDAY, 0)) AS WORKDAY17
+			, MAX(IF(B.ROWNUM = '18', B.WORKDAY, 0)) AS WORKDAY18
+			, MAX(IF(B.ROWNUM = '19', B.WORKDAY, 0)) AS WORKDAY19
+			, MAX(IF(B.ROWNUM = '20', B.WORKDAY, 0)) AS WORKDAY20
+			, MAX(IF(B.ROWNUM = '21', B.WORKDAY, 0)) AS WORKDAY21
+			, MAX(IF(B.ROWNUM = '22', B.WORKDAY, 0)) AS WORKDAY22
+			, MAX(IF(B.ROWNUM = '23', B.WORKDAY, 0)) AS WORKDAY23
+			, MAX(IF(B.ROWNUM = '24', B.WORKDAY, 0)) AS WORKDAY24
+			, MAX(IF(B.ROWNUM = '25', B.WORKDAY, 0)) AS WORKDAY25
+			, MAX(IF(B.ROWNUM = '26', B.WORKDAY, 0)) AS WORKDAY26
+			, MAX(IF(B.ROWNUM = '27', B.WORKDAY, 0)) AS WORKDAY27
+			, MAX(IF(B.ROWNUM = '28', B.WORKDAY, 0)) AS WORKDAY28				
+			, MAX(IF(B.ROWNUM = '29', B.WORKDAY, 0)) AS WORKDAY29			
+			, MAX(IF(B.ROWNUM = '30', B.WORKDAY, 0)) AS WORKDAY30		
+			, MAX(IF(B.ROWNUM = '31', B.WORKDAY, 0)) AS WORKDAY31		
+		FROM (
+				SELECT 
+					CONCAT(SUBSTRING(A.DATECHAR,5,2),'.',SUBSTRING(A.DATECHAR,7,2)) WORKDAY
+			    , SUBSTRING(A.DATECHAR,7,2) AS ROWNUM
+				FROM PM_CALENDAR A
+				WHERE SUBSTRING(A.DATECHAR,1,6) = #{datechar}
+			  ) B
+		UNION ALL
+		SELECT 		
+		  	  A.USERCD
+			, MAX(IF(ROWNUM = '01', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY01
+			, MAX(IF(ROWNUM = '02', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY02
+			, MAX(IF(ROWNUM = '03', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY03
+			, MAX(IF(ROWNUM = '04', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY04
+			, MAX(IF(ROWNUM = '05', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY05
+			, MAX(IF(ROWNUM = '06', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY06
+			, MAX(IF(ROWNUM = '07', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY07
+			, MAX(IF(ROWNUM = '08', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY08
+			, MAX(IF(ROWNUM = '09', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY09
+			, MAX(IF(ROWNUM = '10', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY10
+			, MAX(IF(ROWNUM = '11', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY11
+			, MAX(IF(ROWNUM = '12', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY12
+			, MAX(IF(ROWNUM = '13', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY13
+			, MAX(IF(ROWNUM = '14', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY14
+			, MAX(IF(ROWNUM = '15', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY15
+			, MAX(IF(ROWNUM = '16', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY16
+			, MAX(IF(ROWNUM = '17', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY17
+			, MAX(IF(ROWNUM = '18', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY18
+			, MAX(IF(ROWNUM = '19', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY19
+			, MAX(IF(ROWNUM = '20', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY20
+			, MAX(IF(ROWNUM = '21', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY21
+			, MAX(IF(ROWNUM = '22', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY22
+			, MAX(IF(ROWNUM = '23', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY23
+			, MAX(IF(ROWNUM = '24', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY24
+			, MAX(IF(ROWNUM = '25', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY25
+			, MAX(IF(ROWNUM = '26', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY26
+			, MAX(IF(ROWNUM = '27', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY27
+			, MAX(IF(ROWNUM = '28', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY28
+			, MAX(IF(ROWNUM = '29', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY29
+			, MAX(IF(ROWNUM = '30', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY30
+			, MAX(IF(ROWNUM = '31', CONCAT(A.TODATE, '<br>/', A.FROMDATE), '-')) AS WORKDAY31					
+		 FROM (
+				 SELECT   	 
+				       USERCD
+					  , SUBSTRING(WORKDAY,7,2) AS ROWNUM
+					  , IFNULL(DATE_FORMAT(TODATE, '%H:%i'),'') TODATE		
+					  , IFNULL(DATE_FORMAT(FROMDATE, '%H:%i'),'') FROMDATE
+				 FROM PM_COMMUTE
+				WHERE SUBSTRING(WORKDAY,1,6) = #{datechar} 
+		 		  AND CMPCD = #{cmpcd}
+		 ]]>
+		 	 <choose>
+				<when test='userauth != "A"'>
+				  AND USERCD = #{usercd}
+				</when>
+			 </choose>
+		 <![CDATA[			 		
+		 	  ) A
+		 GROUP BY A.USERCD
+		 ]]>
+	</select>
+	
+</mapper>

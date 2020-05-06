@@ -1,0 +1,236 @@
+@charset "UTF-8";
+/**
+ * Author  : LSH
+ * Content : 공통으로 사용하는 CSS 설정
+ * Ver 1.0 
+ */
+ 
+/* 공통으로 사용할 폰트 설정  */
+@font-face {
+	font-family:	'Spoqa Han Sans';
+	src:	url('/resources/fonts/Spoqa_Han_Sans_Light.woff');
+}
+
+body, button, div, input, select, table, textarea {
+  font-size: 13px;
+  font-family: 'Spoqa Han Sans';
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  outline: none
+}
+
+#content {	
+	min-width: 800px;	
+	overflow: auto;
+}
+
+#left {
+	width: 100%;
+	height: 100%;
+	padding-top: 10px;
+	overflow: auto;
+	-webkit-box-shadow: 15px -10px 40px -25px rgba(50,50,50,0.19);
+	-moz-box-shadow: 15px -10px 40px -25px rgba(50,50,50,0.19);
+	box-shadow: 15px -10px 40px -25px rgba(50,50,50,0.19);	
+}
+
+#body {
+	width: 100%;
+	height: 100%;
+	/* padding-top: 10px; */
+	overflow: auto;	
+}
+
+.footer {
+	height: 70px;
+  	background-color: transparent;
+}
+
+.footer > .container {
+  	padding-right: 15px;
+  	padding-left: 15px;
+}
+
+/* a태그 커스텀 */
+.a-basic {
+	color: #fff !important;
+	font-weight: bold;
+}
+
+/* 공통 이미지 CSS */
+.w10-h10 {
+	width: 10px;
+	height: 10px;
+}
+
+.w18-h18 {
+	width: 18px;
+	height: 18px;
+}
+
+.w32-h32 {
+	width: 32px;
+	height: 32px;
+}
+
+.w64-h64 {
+	width: 64px;
+	height: 64px;
+}
+
+.w128-h128 {
+	width: 128px;
+	height: 128px;
+}
+
+/* Control size CSS */
+.w80 {
+	width: 80px !important;
+}
+.w100 {
+	width: 100px !important;
+}
+.w-80 {
+	width: 80% !important;
+}
+
+
+.thumb-logo {
+	width: 64px;
+	height: 32px;
+}
+
+.logo {
+	width: 256px;
+	height: 128px;
+}
+
+.ifrm-basic {
+	width: 100%;
+	height: 100%;
+	border: none;
+	background-color: transparent;
+}
+
+.menu-div {
+	border-top: 1px solid #e0e0eb;
+	margin-top: 10px;
+	padding-top: 5px;
+}
+
+/* 테마 색상 */
+.bg-theme1 {
+	background-color: #32324e;
+    color: #fff;
+    text-align: center; 
+}
+
+.bg-theme2 {
+	background-color: #FF6F61;
+    color: #fff;
+    text-align: center; 
+}
+
+.bg-theme3 {
+	background-image: linear-gradient(to bottom, #fff, #e0e0eb);    
+    text-align: center; 
+    color: #212529;
+}
+
+/* 테이블 CSS */
+.th-basic {
+	background-color: #efeff5;
+	text-align: right;
+}
+
+/* 레이어 팝업 CSS */
+.layer-mail {
+	position: absolute;
+	z-index: 9;
+	top: 50; 
+	left: 50; 
+	display: none;
+}
+
+.layer-doc {
+	position: absolute;
+	z-index: 9;
+	top: 50; 
+	left: 50; 
+	display: none;
+}
+
+.layer-sign {
+	position: absolute;
+	z-index: 9;
+	top: 50; 
+	left: 50; 
+	display: none;
+}
+
+/* 시계 CSS */
+.clock {
+	padding: 2rem;
+    margin-left: 15px;
+    margin-right: 15px;
+    text-align: center;
+    background-color: #e0e0eb;
+    border-radius: 10px;
+}
+    
+/* 버튼 안에 이미지를 넣는 경우 사용 */
+.btn-img {
+  display: inline-block;
+  font-weight: 400;
+  color: #212529;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid #e0e0eb;
+  padding: 0.35rem 0.5rem;
+  /* font-size: 1rem; */
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-img {
+    transition: none;
+  }
+}
+
+.btn-img:hover {
+  color: #212529;
+  background-color: #e0e0eb;
+  text-decoration: none;
+}
+
+.btn-img:active {
+	background-color: #e0e0eb;
+	border-color: #32324e;
+}
+
+.btn-img:focus, .btn-img.focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-img.disabled, .btn-img:disabled {
+  opacity: 0.65;
+}
+
+a.btn-img.disabled,
+fieldset:disabled a.btn-img {
+  pointer-events: none;
+}
+
+#docListSpace div {
+	cursor: pointer;
+}

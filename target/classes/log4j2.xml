@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+<!-- 
+
+[Pattern]
+
+%d : 날짜
+%n : new line
+%t : thread
+%p : 로깅 레벨
+%c : 로깅이 발생한 카테고리
+%C : 로깅이 발생한 클래스명
+%m : 로깅 메세지
+
+ -->
+ 
+	<!--
+	console 출력을 위한 Appender 지정 
+	patternLayout : 로그의 출력 패턴을 설정한다
+	-->
+	<appenders>
+	
+		<console name="console" target="SYSTEM_OUT">	    
+	    	<patternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%p] [%c] %m%n" />
+	  	</console>
+	          
+	</appenders>
+
+	<loggers>
+		<!-- 
+		 모든 로그는 INFO 레벨 이상일 때만 조회
+		 (로그 순서 : DEBUG > INFO > WARN > ERROR > FATAL)
+		 
+		 - additivity : 반복로그 제거 
+		 - jdbc.sqltiming : SQL문과 SQL문을 실행하는데 걸린 시간 정보(Milliseconds)를 포함한다.
+		 - jdbc.sqlonly   : SQL문만을 로그에 남긴다.
+		 - jdbc.audit     : ResultSet을 제외한 모든 JDBC 호출 정보를 로그에 남긴다.
+		 - jdbc.resultset : ResultSet을 포함한 모든 JDBC 호출 정보를 로그에 남긴다.
+		 - jdbc.resultset : SQL문의 조회 결과를 테이블 형태로 로그에 남긴다.		 		 
+		-->
+		<root level="INFO" additivity="false">
+	  		<appender-ref ref="console" />
+		</root>
+
+		<logger name="org.mybatis" level="ERROR" additivity="false">
+   			<appender-ref ref="console"></appender-ref>
+   		</logger>	
+
+	   	<logger name="org.springframework" level="ERROR" additivity="false">
+      		<appender-ref ref="console"></appender-ref>
+   		</logger>
+   
+   		<logger name="org.apache" level="ERROR" additivity="false">
+  	  		<appender-ref ref="console"></appender-ref>      	     
+ 	  	</logger>
+
+   		<logger name="jdbc.sqlonly" level="ERROR" additivity="false">
+   			<appender-ref ref="console"></appender-ref>
+   		</logger>	      	      
+   
+   		<logger name="jdbc.sqltiming" level="INFO" additivity="false">
+   			<appender-ref ref="console"></appender-ref>
+   		</logger>
+   
+   		<logger name="jdbc.audit" level="ERROR" additivity="false">
+      		<appender-ref ref="console"></appender-ref>
+   		</logger>
+   
+		<logger name="jdbc.resultset" level="ERROR" additivity="false">              
+        	<appender-ref ref="console"></appender-ref>
+      	</logger>
+   
+   		<logger name="jdbc.resultsettable" level="ERROR" additivity="false">              
+        	<appender-ref ref="console"></appender-ref>
+      	</logger>	      			      	    		      			    
+    	
+ 	</loggers>
+  	  
+</configuration>

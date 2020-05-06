@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="login">
+
+	<select id="getUserInfo" resultType="LoginVO" >
+		SELECT
+			  A.USERID
+			, A.USERCD
+			, A.USERAUTH
+		    , A.USERNAME
+		    , A.USERIMG
+		    , A.CMPCD
+		    , A.USERMAIL
+		    , A.MOBILENO
+		    , B.CMPNAME
+		    , B.CMPADDR
+		    , B.CMPTEL
+		    , IFNULL(B.CMPLOGO, 'nonelogo.png') CMPLOGO
+		    , A.ENTERYMD
+		 FROM PM_USER A 
+		 	 ,PM_COMPANY B
+		WHERE A.USERID = #{userid}
+	      AND A.CMPCD  = B.CMPCD
+	</select>
+
+	<update id="saveUserImg" parameterType="LoginVO">
+		UPDATE PM_USER
+		   SET USERIMG = #{userimg}
+		 WHERE CMPCD   = #{cmpcd}
+		   AND USERID  = #{userid}
+	</update>
+	
+	<select id="checkPass" resultType="int" parameterType="hashMap">
+		SELECT COUNT(USERID) AS CNT
+		  FROM PM_USER
+		 WHERE CMPCD    = #{cmpcd}
+		   AND USERCD   = #{usercd}
+		   AND PASSWORD = #{beforePass}
+	</select>
+	
+	<update id="editPass" parameterType="hashMap">
+		UPDATE PM_USER
+		   SET PASSWORD = #{newPass}
+		 WHERE CMPCD    = #{cmpcd}
+		   AND USERCD   = #{usercd}		   
+	</update>
+	
+</mapper>

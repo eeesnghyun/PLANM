@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mail">
+	
+	<select id="getMailNo" resultType="String">
+		SELECT COUNT(MAILNO)+1 CNT
+	     FROM PM_MAIL
+	    WHERE CMPCD = #{cmpcd}
+	</select>
+	
+	<insert id="sendMail" parameterType="MailVO">
+		<![CDATA[
+		INSERT INTO PM_MAIL(
+		   CMPCD
+		 , USERMAIL
+		 , MAILNO
+		 , MAILTITLE
+		 , MAILCONTENT
+		 , MAILFILE
+		 , FROMUSERID
+		 , FROMUSER
+		 , TOUSER
+		 , CCUSER
+		 , FROMDATE
+		 , READDATE  
+		 , MAILSTATUS
+		)
+		VALUES(
+		   #{cmpcd}
+		 , #{usermail}						-- 사용자 메일
+		 , #{mailno}
+		 , #{mailtitle}		 				-- 메일제목
+		 , #{mailcontent}					-- 메일내용
+		 ]]>		 
+		 <choose>
+		 	<when test="mailfile == ''">
+		 	, NULL							-- 첨부파일
+		 	</when>
+		 	<otherwise>
+		 	, #{mailfile}					-- 첨부파일
+		 	</otherwise>
+		 </choose>		 	
+		<![CDATA[ 
+		 , #{userid}						-- 보낸사람(ID)
+		 , #{fromuser}						-- 보낸사람
+		 , #{touser}						-- 받는사람(전체)
+		 , #{ccuser}						-- 참조
+		 , NOW()							-- 보낸날짜
+		 , NULL								-- 읽은날짜
+		 , #{mailstatus}					-- 메일상태
+		)
+		]]>
+	</insert>
+
+	<select id="getUsermail" resultType="LowerKeyMap">
+		SELECT 
+			   USERNAME
+			 , USERMAIL
+		  FROM PM_USER
+		 WHERE CMPCD = #{cmpcd}
+	</select>
+
+	<select id="getMailList" resultType="LowerKeyMap" parameterType="hashMap">
+		SELECT
+			   A.MAILNO
+			 , A.USERMAIL			 
+			 , A.MAILTITLE		     
+		     , CASE WHEN IFNULL(A.MAILFILE,'X') = 'X' 
+		     			 THEN 'X'
+		       		ELSE 'Y' 
+		       END MAILFILE	
+		     , (SELECT USERNAME FROM PM_USER WHERE USERID = A.FROMUSERID) USERNAME	     
+		     , A.FROMUSER
+		     , DATE_FORMAT(A.FROMDATE, '%Y:%m:%d %H:%i') FROMDATE
+		     , CASE WHEN IFNULL(A.READDATE, 'X') = 'X' THEN '-'
+		     	    ELSE DATE_FORMAT(A.READDATE, '%Y:%m:%d %H:%i')
+		       END READDATE
+		  FROM PM_MAIL A		 
+		 WHERE A.CMPCD      = #{cmpcd}
+		   AND A.USERMAIL   = #{usermail}
+		   AND A.MAILSTATUS = #{mailStatus}
+		 ORDER BY A.FROMDATE DESC
+		 LIMIT #{startNum}, #{nowPageCnt} 
+	</select>	
+	
+	<select id="getMailContent" resultType="LowerKeyMap" parameterType="hashMap">
+		SELECT
+			    A.MAILNO
+			  , A.USERMAIL			  
+			  , A.MAILTITLE
+			  , A.MAILCONTENT
+			  , IFNULL(A.MAILFILE,'X') MAILFILE
+			  , (SELECT USERNAME FROM PM_USER WHERE USERID = A.FROMUSERID) USERNAME
+			  , A.FROMUSER
+			  , DATE_FORMAT(A.FROMDATE, '%Y:%m:%d %H:%i') FROMDATE
+			  , A.TOUSER
+			  , A.CCUSER			  
+		  FROM PM_MAIL A
+		 WHERE A.CMPCD	  = #{cmpcd}
+		   AND A.USERMAIL = #{usermail} 
+		   AND A.MAILNO   = #{mailno} 
+	</select>
+	
+	<select id="setMailList" resultType="LowerKeyMap" parameterType="hashMap">
+		SELECT
+			   A.MAILNO
+			 , A.USERMAIL			 
+			 , A.MAILTITLE		     
+		     , CASE WHEN IFNULL(A.MAILFILE,'X') = 'X' 
+		     			 THEN 'X'
+		       		ELSE 'Y' 
+		       END MAILFILE	
+		     , (SELECT USERNAME FROM PM_USER WHERE USERID = A.FROMUSERID) USERNAME	     
+		     , A.FROMUSER
+		     , DATE_FORMAT(A.FROMDATE, '%Y:%m:%d %H:%i') FROMDATE
+		     , CASE WHEN IFNULL(A.READDATE, 'X') = 'X' THEN '-'
+		     	    ELSE DATE_FORMAT(A.READDATE, '%Y:%m:%d %H:%i')
+		       END READDATE
+		  FROM PM_MAIL A		 
+		 WHERE A.CMPCD	= #{cmpcd}
+		   AND A.FROMUSERID   = #{userid}		   
+		 ORDER BY A.FROMDATE DESC
+		 LIMIT #{startNum}, #{nowPageCnt} 
+	</select>	
+	
+	<select id="setMailContent" resultType="LowerKeyMap" parameterType="hashMap">
+		SELECT
+			    A.MAILNO
+			  , A.USERMAIL			  
+			  , A.MAILTITLE
+			  , A.MAILCONTENT
+			  , IFNULL(A.MAILFILE,'X') MAILFILE
+			  , (SELECT USERNAME FROM PM_USER WHERE USERID = A.FROMUSERID) USERNAME
+			  , A.FROMUSER
+			  , DATE_FORMAT(A.FROMDATE, '%Y:%m:%d %H:%i') FROMDATE
+			  , A.TOUSER
+			  , A.CCUSER			  
+		  FROM PM_MAIL A
+		 WHERE A.CMPCD  = #{cmpcd}
+		   AND A.FROMUSERID   = #{userid}	
+		   AND A.MAILNO = #{mailno} 
+	</select>
+	
+	<update id="readMailEdit" parameterType="hashMap">
+		UPDATE PM_MAIL		  
+		   SET READDATE =  NOW()
+		 WHERE CMPCD  = #{cmpcd}
+		   AND MAILNO = #{mailno}		 		   
+	</update>
+	
+	<update id="editMail" parameterType="hashMap">
+		UPDATE PM_MAIL
+		   SET MAILSTATUS = #{mailStatus}
+		 WHERE CMPCD = #{cmpcd}
+		 <choose>
+		 	<when test="mailList.size != 0">
+		 		AND MAILNO IN
+		 		<foreach collection="mailList" item="item" index="index" separator="," open="(" close=")">
+		 			#{item}
+		 		</foreach>
+		 	</when>
+		 	<otherwise>
+		 		AND MAILNO = #{mailno}
+		 	</otherwise>
+		 </choose>		 		   
+	</update>
+	
+	<delete id="deleteMail" parameterType="hashMap">
+		DELETE FROM PM_MAIL		    
+		 WHERE CMPCD = #{cmpcd}
+		 <choose>
+		 	<when test="mailList.size != 0">
+		 		AND MAILNO IN
+		 		<foreach collection="mailList" item="item" index="index" separator="," open="(" close=")">
+		 			#{item}
+		 		</foreach>
+		 	</when>
+		 	<otherwise>
+		 		AND MAILNO = #{mailno}
+		 	</otherwise>
+		 </choose>		 		   
+	</delete>
+	
+</mapper>

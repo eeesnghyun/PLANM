@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+						http://www.springframework.org/schema/security 
+						http://www.springframework.org/schema/security/spring-security.xsd">
+	
+	<http pattern="/**/*.js"  security="none"/>
+    <http pattern="/**/*.css" security="none"/>
+    <http pattern="/images/*" security="none"/>
+    <http pattern="/resources/**" security="none"/>
+
+	<http use-expressions="true">
+		<intercept-url pattern="/favicon.ico"      access="hasRole('ROLE_ANONYMOUS')" />
+		<intercept-url pattern="/resources/**"     access="permitAll" />
+		<intercept-url pattern="/login/**"		   access="permitAll" />
+		<intercept-url pattern="/schedule/**"      access="permitAll" />		
+		<intercept-url pattern="/**"               access="hasAnyRole('ROLE_USER, ROLE_ADMIN')" />	<!-- ROLE_USER 또는 ROLE_ADMIN 권한을 갖는 경우 -->
+		
+
+		<form-login login-page="/login/pmLogin.do"		
+		        	login-processing-url="/login.do"								
+                    default-target-url="/main.do"		
+                    authentication-failure-url="/login/pmLogin.do?result=err"
+                    username-parameter="userid"
+                    password-parameter="password" />
+
+         
+        <!-- 로그아웃 처리 (로그아웃은 POST 형식으로 넘어가야 한다) -->             			
+		<logout invalidate-session="true" logout-url="/logout.do" logout-success-url="/login/pmLogin.do" />
+
+		<session-management>
+			<concurrency-control max-sessions="1" expired-url="/" />
+		</session-management>
+		
+		<!-- 권한이 없는 경우 보여지는 페이지 -->                
+        <access-denied-handler error-page="/login/accessDenied.do" />        
+        	
+        <!-- 시큐리티 ver.4 이상부터 csrf 토큰이 자동 적용된다 -->
+        <csrf disabled="false"/>  	
+        	
+        <headers>
+		   <frame-options policy="SAMEORIGIN"/><!-- iframe 안되는걸 방지 -->
+		</headers> 	
+        		
+	</http>
+	
+	<authentication-manager>
+		<authentication-provider>
+			<!-- <user-service>
+				<user name="admin" password="1234" authorities="ROLE_USER, ROLE_ADMIN" />
+				<user name="guest" password="1234" authorities="ROLE_USER" />
+				<user name="guest2" password="a1234" authorities="ROLE_USER" />
+			</user-service> -->
+			
+			<jdbc-user-service data-source-ref="dataSource"
+				  users-by-username-query="SELECT USERID as username
+												, PASSWORD
+												, USEFLAG as enabled
+											 FROM PM_USER WHERE USERID=?"
+			authorities-by-username-query="SELECT A.USERID as username
+												, B.USERROLECD as authority
+											 FROM PM_USER A
+												, PM_AUTH B
+											WHERE A.USERAUTH=B.USERAUTH
+											  AND A.USERID=?"																						 
+			/>
+
+		</authentication-provider>				
+	</authentication-manager>
+
+</beans:beans>
+

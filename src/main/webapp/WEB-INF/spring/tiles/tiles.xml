@@ -1,0 +1,29 @@
+<!DOCTYPE tiles-definitions PUBLIC
+  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+ 
+<tiles-definitions>
+ 
+    <!-- 화면 Base -->
+    <definition name="base" template="/WEB-INF/views/tiles/baseform.jsp">        
+        <put-attribute name="header" value="/WEB-INF/views/tiles/header.jsp" />
+        <put-attribute name="left" value="/WEB-INF/views/tiles/left.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/views/tiles/footer.jsp" />        
+    </definition>
+    
+     
+    <!-- 동적 매핑
+         만약 /board/board.body의 경로라면 /WEB-INF/views/board/board.jsp 뷰를 가져온다. -->
+    <definition name="*.body" extends="base">
+        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+    </definition>
+ 
+     <definition name="*/*.body" extends="base">
+         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+     </definition>
+    
+    <definition name="*/*/*.body" extends="base">
+        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+    </definition>
+    
+</tiles-definitions>

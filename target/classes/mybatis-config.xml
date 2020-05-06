@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<typeAliases>
+		<typeAlias alias="LoginVO" type="com.planm.login.vo.LoginVO"></typeAlias>
+		<typeAlias alias="ScheduleVO" type="com.planm.schedule.vo.ScheduleVO"></typeAlias>
+		<typeAlias alias="MenuVO" type="com.planm.menu.vo.MenuVO"></typeAlias>
+		<typeAlias alias="MailVO" type="com.planm.mail.vo.MailVO"></typeAlias>		
+		<typeAlias alias="ApprovalVO" type="com.planm.approval.vo.ApprovalVO"></typeAlias>
+		<typeAlias alias="ManageVO" type="com.planm.manage.vo.ManageVO"></typeAlias>
+		
+		<typeAlias alias="hashMap" type="java.util.HashMap" />
+		<typeAlias alias="LowerKeyMap" type="com.planm.util.LowerKeyMap" />
+	</typeAliases>
+
+</configuration>
