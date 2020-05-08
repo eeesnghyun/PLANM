@@ -33,7 +33,6 @@ public class ScheduleController {
 		return "/schedule/main";
 	}
 	
-	/** 스케줄 입력 */
 	@RequestMapping(value= "/schedule/addSchedule.ajax", method = RequestMethod.POST)
 	public @ResponseBody String addSchedule(HttpSession session, @RequestBody String jsonParams, HttpServletRequest request) {	
 		ScheduleVO scheduleVO = new ScheduleVO();
@@ -46,7 +45,7 @@ public class ScheduleController {
 			String schno = String.valueOf(json.get("schno"));
 			String userid = loginVO.getUserid();
 			String title = String.valueOf(json.get("title"));
-			String schContent = String.valueOf(json.get("content"));
+			String schContent = String.valueOf(json.get("schContent"));
 			String schType = String.valueOf(json.get("schType"));
 			String startdt = String.valueOf(json.get("startdt"));
 			String enddt = String.valueOf(json.get("enddt"));
