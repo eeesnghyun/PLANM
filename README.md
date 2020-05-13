@@ -22,4 +22,3 @@
 
 ## 스크린샷
 <img width="1250px" height="450px" src="https://user-images.githubusercontent.com/47884586/81765268-51a3ee00-950e-11ea-9a2b-718ad7208d71.jpg">
-: straight_ruler :
