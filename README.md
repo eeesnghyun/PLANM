@@ -13,7 +13,7 @@
 ## 기술
 + jQuery, jQuery-UI, jQuery-MultiFile
 + MyBatis
-+ tiles
++ Tiles
 
 ## 오픈소스
 + Bootstrap 4.4
@@ -21,3 +21,8 @@
 + SweetAlerts
 + ax5grid
 + Ckeditor, CkFinder
+
+## 스크린샷
+<div>
+<img width="200" src="https://user-images.githubusercontent.com/47884586/81764820-6469f300-950d-11ea-8eb3-33765b5a5999.jpg">
+</div>
