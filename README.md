@@ -1,7 +1,7 @@
 # PLANM
 > PLANM은 무료 ERP 솔루션입니다.<br/>
 
-## :heavy_check_mark: 환경
+## :ballot_box_with_check: 환경
 + Spring framework
 + Spring Security
 + jdk 1.8
