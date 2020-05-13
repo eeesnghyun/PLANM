@@ -1,4 +1,5 @@
 # PLANM    
+> PLANM은 일정, 사내 메일, 근태, 전자결재 서비스를 제공하는 무료 ERP 서비스입니다.    
 -----
 ## 환경
 + Spring framework
