@@ -2,7 +2,9 @@ package com.planm.mail.vo;
 
 public class MailVO {
 	private String cmpcd;
-	private String usermail;
+	private String usercd;
+	private String tousercd;
+	private String ccusercd;	
 	private String username;
 	private String mailno;
 	private String mailtitle;
@@ -16,6 +18,25 @@ public class MailVO {
 	private String todate;
 	private String mailstatus;
 		
+	
+	public String getUsercd() {
+		return usercd;
+	}
+	public void setUsercd(String usercd) {
+		this.usercd = usercd;
+	}
+	public String getTousercd() {
+		return tousercd;
+	}
+	public void setTousercd(String tousercd) {
+		this.tousercd = tousercd;
+	}
+	public String getCcusercd() {
+		return ccusercd;
+	}
+	public void setCcusercd(String ccusercd) {
+		this.ccusercd = ccusercd;
+	}
 	public String getCmpcd() {
 		return cmpcd;
 	}
@@ -27,12 +48,6 @@ public class MailVO {
 	}
 	public void setMailstatus(String mailstatus) {
 		this.mailstatus = mailstatus;
-	}
-	public String getUsermail() {
-		return usermail;
-	}
-	public void setUsermail(String usermail) {
-		this.usermail = usermail;
 	}
 	public String getUsername() {
 		return username;

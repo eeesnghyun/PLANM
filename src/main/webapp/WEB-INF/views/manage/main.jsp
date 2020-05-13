@@ -44,6 +44,7 @@ $(document).ready(function() {
 	var month = $("#dateChar").val();
 	
 	fnct_GetCommuteList(month);
+		
 });
 </script>
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -75,3 +76,4 @@ $(document).ready(function() {
 		</div>
 	</div>
 </div>
+

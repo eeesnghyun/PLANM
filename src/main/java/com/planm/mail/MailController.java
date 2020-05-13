@@ -190,7 +190,9 @@ public class MailController {
 		LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
 		MailVO mailVO = new MailVO();
 
-		try {						
+		try {
+			String toUserCd    = mtfRequest.getParameter("toUserCd");
+			String ccUserCd    = mtfRequest.getParameter("ccUserCd");
 			String mailNo	   = mtfRequest.getParameter("mailNo");	
 			String fromUser    = loginVO.getUsermail();					// 보낸 사람
 			String toUser      = mtfRequest.getParameter("toUser");	 	// 받는 사람
@@ -204,24 +206,23 @@ public class MailController {
 			String convertToContent = new String(mailContent[0].getBytes("8859_1"),"utf-8");
 			
 			String sendFileName = fileUtil.fileUpload(mtfRequest);
+
+			mailVO.setCmpcd(loginVO.getCmpcd());
+			mailVO.setUsercd(loginVO.getUsercd());
+        	mailVO.setTousercd(toUserCd);
+        	mailVO.setCcusercd(ccUserCd);
+			mailVO.setMailno(mailNo);
+        	mailVO.setMailtitle(convertTomailTitle);				// 메일 제목
+			mailVO.setMailcontent(convertToContent);				// 메일 내용
+			mailVO.setMailfile(sendFileName);						// 첨부 파일
+			mailVO.setUserid(loginVO.getUserid());					// 보낸 사람 ID
+			mailVO.setFromuser(fromUser);							// 보낸 사람 메일
+        	mailVO.setTouser(toUser);								// 받은 사람 메일(전체)
+			mailVO.setCcuser(ccUser); 								// 참조
+        	mailVO.setMailstatus(mailStatus);						// 메일 상태
 			
-			// 파일 업로드
-			if(sendFileName != null || !sendFileName.equals("")) {
-				mailVO.setCmpcd(loginVO.getCmpcd());
-	        	mailVO.setMailno(mailNo);
-	        	mailVO.setMailtitle(convertTomailTitle);				// 메일 제목
-				mailVO.setMailcontent(convertToContent);				// 메일 내용
-				mailVO.setMailfile(sendFileName);						// 첨부 파일
-				mailVO.setUserid(loginVO.getUserid());					// 보낸 사람 ID
-				mailVO.setFromuser(fromUser);							// 보낸 사람 메일
-	        	mailVO.setTouser(toUser);								// 받은 사람 메일(전체)
-				mailVO.setCcuser(ccUser); 								// 참조
-	        	mailVO.setMailstatus(mailStatus);						// 메일 상태
-				
-				mailService.sendMail(mailVO);
-	          	result.put("status", "success");        	
-			}			
-        	
+			mailService.sendMail(mailVO);
+          	result.put("status", "success");        				
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.put("status", "error");		
@@ -239,15 +240,14 @@ public class MailController {
 		JSONObject json = (JSONObject) JSONValue.parse(jsonParams);
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		try {				
-			String usermail = loginVO.getUsermail();
+		try {							
 			int nowPage = Integer.parseInt(json.get("nowPage").toString());
 			pagingVO.setNowPage(nowPage);	
 			
 			map.put("cmpcd"		 , loginVO.getCmpcd());
+			map.put("usercd"     , loginVO.getUsercd());
 			map.put("startNum"   , pagingVO.getStartNum());
-			map.put("nowPageCnt" , pagingVO.getNowPageCnt());
-			map.put("usermail"   , usermail);
+			map.put("nowPageCnt" , pagingVO.getNowPageCnt());			
 			map.put("mailStatus" , json.get("mailStatus"));
 			
 			int totalPage = pagingService.getMailListTotalCount(map);			
@@ -280,7 +280,7 @@ public class MailController {
 			String mailNo = json.get("mailNo").toString(); 
 			
 			map.put("cmpcd"	  , loginVO.getCmpcd());
-			map.put("usermail", loginVO.getUsermail());
+			map.put("usercd"  , loginVO.getUsercd());
 			map.put("mailno"  , mailNo);
 			
 			Map<String, Object> mailContent = mailService.getMailContent(map);

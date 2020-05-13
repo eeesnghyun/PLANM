@@ -7,6 +7,17 @@
 <head>
 <title>Test WEB</title>
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+<link href="/resources/ax5/ax5calendar.css"  rel="stylesheet">
+<link href="/resources/ax5/ax5formatter.css"  rel="stylesheet">
+<link href="/resources/ax5/ax5picker.css"  rel="stylesheet">
+
+<script type="text/javascript" src="/resources/ax5/ax5core.min.js"></script>
+<script type="text/javascript" src="/resources/ax5/ax5calendar.min.js"></script>
+<script type="text/javascript" src="/resources/ax5/ax5formatter.min.js"></script>
+<script type="text/javascript" src="/resources/ax5/ax5picker.min.js"></script>
+
 <script>
 /* 시큐리티 토큰 */
 var token = $("input[name='_csrf']").val();
@@ -19,8 +30,60 @@ function fcnt_Login(){
 	
 }
 
-$(document).ready(function() {
-	
+var picker = new ax5.ui.picker();
+
+$(document.body).ready(function () {
+
+    picker.bind({
+        target: $('[data-ax5picker="basic"]'),
+        direction: "top",
+        content: {
+            width: 270,
+            margin: 10,
+            type: 'date',
+            config: {
+                control: {
+                    left: '<i class="fa fa-chevron-left"></i>',
+                    yearTmpl: '%s',
+                    monthTmpl: '%s',
+                    right: '<i class="fa fa-chevron-right"></i>'
+                },
+                lang: {
+                    yearTmpl: "%s년",
+                    months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+                    dayTmpl: "%s"
+                }
+            }
+        },
+        onStateChanged: function () {
+
+        },
+        btns: {
+            today: {
+                label: "Today", onClick: function () {
+                    var today = new Date();
+                    this.self
+                            .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy-mm-dd"}))
+                            .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy-mm-dd"}))
+                            .close()
+                    ;
+                }
+            },
+            thisMonth: {
+                label: "This Month", onClick: function () {
+                    var today = new Date();
+                    this.self
+                            .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy-mm-01"}))
+                            .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy-mm"})
+                                    + '-'
+                                    + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
+                            .close();
+                }
+            },
+            ok: {label: "Close", theme: "default"}
+        }
+    });
+
 });
 </script>
 </head>
@@ -48,4 +111,17 @@ $(document).ready(function() {
 		</div>
 	</div>
 </form:form>
+
+<div class="row">
+    <div class="col-md-6">
+        <label>Multi Date</label>
+        <div class="input-group" data-ax5picker="basic">
+            <input type="text" class="form-control" placeholder="yyyy/mm/dd">
+            <span class="input-group-addon">~</span>
+            <input type="text" class="form-control" placeholder="yyyy/mm/dd">
+            <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
+        </div>
+    </div>
+</div>
+
 </body>

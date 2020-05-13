@@ -7,7 +7,7 @@
 		SELECT COUNT(MAILNO) CNT
 		  FROM PM_MAIL
 		 WHERE CMPCD      = #{cmpcd}
-		   AND USERMAIL   = #{usermail}
+		   AND USERCD     = #{usercd}
 		   AND MAILSTATUS = #{mailStatus}
 	</select>
 	

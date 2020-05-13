@@ -13,7 +13,7 @@
 		<![CDATA[
 		INSERT INTO PM_MAIL(
 		   CMPCD
-		 , USERMAIL
+		 , USERCD		 
 		 , MAILNO
 		 , MAILTITLE
 		 , MAILCONTENT
@@ -28,7 +28,7 @@
 		)
 		VALUES(
 		   #{cmpcd}
-		 , #{usermail}						-- 사용자 메일
+		 , #{usercd}						-- 사번		 
 		 , #{mailno}
 		 , #{mailtitle}		 				-- 메일제목
 		 , #{mailcontent}					-- 메일내용
@@ -52,10 +52,11 @@
 		)
 		]]>
 	</insert>
-
+	
 	<select id="getUsermail" resultType="LowerKeyMap">
 		SELECT 
-			   USERNAME
+			   USERCD
+			 , USERNAME
 			 , USERMAIL
 		  FROM PM_USER
 		 WHERE CMPCD = #{cmpcd}
@@ -64,7 +65,7 @@
 	<select id="getMailList" resultType="LowerKeyMap" parameterType="hashMap">
 		SELECT
 			   A.MAILNO
-			 , A.USERMAIL			 
+			 , A.USERCD			 
 			 , A.MAILTITLE		     
 		     , CASE WHEN IFNULL(A.MAILFILE,'X') = 'X' 
 		     			 THEN 'X'
@@ -78,7 +79,7 @@
 		       END READDATE
 		  FROM PM_MAIL A		 
 		 WHERE A.CMPCD      = #{cmpcd}
-		   AND A.USERMAIL   = #{usermail}
+		   AND A.USERCD     = #{usercd}
 		   AND A.MAILSTATUS = #{mailStatus}
 		 ORDER BY A.FROMDATE DESC
 		 LIMIT #{startNum}, #{nowPageCnt} 
@@ -87,7 +88,7 @@
 	<select id="getMailContent" resultType="LowerKeyMap" parameterType="hashMap">
 		SELECT
 			    A.MAILNO
-			  , A.USERMAIL			  
+			  , A.USERCD			  
 			  , A.MAILTITLE
 			  , A.MAILCONTENT
 			  , IFNULL(A.MAILFILE,'X') MAILFILE
@@ -98,14 +99,14 @@
 			  , A.CCUSER			  
 		  FROM PM_MAIL A
 		 WHERE A.CMPCD	  = #{cmpcd}
-		   AND A.USERMAIL = #{usermail} 
+		   AND A.USERCD   = #{usercd} 
 		   AND A.MAILNO   = #{mailno} 
 	</select>
 	
 	<select id="setMailList" resultType="LowerKeyMap" parameterType="hashMap">
 		SELECT
 			   A.MAILNO
-			 , A.USERMAIL			 
+			 , A.USERCD			 
 			 , A.MAILTITLE		     
 		     , CASE WHEN IFNULL(A.MAILFILE,'X') = 'X' 
 		     			 THEN 'X'
@@ -127,7 +128,7 @@
 	<select id="setMailContent" resultType="LowerKeyMap" parameterType="hashMap">
 		SELECT
 			    A.MAILNO
-			  , A.USERMAIL			  
+			  , A.USERCD			  
 			  , A.MAILTITLE
 			  , A.MAILCONTENT
 			  , IFNULL(A.MAILFILE,'X') MAILFILE

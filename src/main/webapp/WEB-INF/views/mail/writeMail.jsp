@@ -19,6 +19,12 @@ var firstGrid = new ax5.ui.grid();
 var userFlag = "";
 var filesTempArr = [];		// 파일 데이터를 담을 배열
 
+var toUserCdStr = "";
+var ccUserCdStr = "";
+
+/*
+ * 유저 메일 가져오기
+ */
 function fnct_GetUsermail(id){
 	userFlag = id;
 	var params = {}; 	
@@ -34,6 +40,7 @@ function fnct_GetUsermail(id){
 	       	header: { align: "center" },
 	        target: $('[data-ax5grid="first-grid"]'),
 	        columns: [
+	        		 {key: "usercd"	 , label: "사번"},
 	                 {key: "username", label: "이름"},
 	                 {key: "usermail", label: "메일"}
 	        	    ]
@@ -49,6 +56,12 @@ function fnct_ChooseMail(){
 	var userId = "#" + userFlag;
 	
 	for(var i = 0; i < mailList.length; i++){
+		if(userFlag == "ccUserW") {		// 참조자	
+			ccUserCdStr += mailList[i].usercd + ",";	
+		} else {
+			toUserCdStr += mailList[i].usercd + ",";
+		}
+				
 		mailHtml += mailList[i].usermail + ",";	
 	}
 	
@@ -106,18 +119,30 @@ function fnct_DeleteFile(orderParam) {
 /* 
  * 메일 전송
  */
-function fnct_SendMail(mailStatus) {	
+function fnct_SendMail(flag) {	
+	var mailStatus = flag;	
+	var toUserCd = fnct_ReturnRmvStr(toUserCdStr);
+	var ccUserCd = fnct_ReturnRmvStr(ccUserCdStr);
 	var mailTitle = $("#mailTitleW").val();
 	var mailContent = CKEDITOR.instances.mailContentW.getData();		// CKEditor 사용시 Textarea 값 불러오기
-	var mailNo = "${mailNo}";
+	var mailNo = "${mailNo}";											// 임시저장 후에 메일 작성하는 경우 사용
+		
+	/* 내게쓰기로 들어온 경우 */
+	if("${mailStatus}" == "M") {
+		mailStatus = "M";
+		toUserCd = "${loginVO.usercd}";
+	}
 	
 	if(mailTitle == "") {
 		alert("제목을 입력해주세요.");
 		return;
 	}
+	
 	if(mailNo == "" || mailNo == undefined) mailNo = "X"
 	
 	var formData = new FormData($("#frmW")[0]);
+	formData.append("toUserCd"   , toUserCd);
+	formData.append("ccUserCd"   , ccUserCd);
 	formData.append("mailNo"     , mailNo);
 	formData.append("toUser"     , $("#toUserW").val());
 	formData.append("ccUser"     , $("#ccUserW").val());
@@ -137,7 +162,7 @@ function fnct_SendMail(mailStatus) {
 		contentType: false,				
 		success : function(data) {				
 			if(data.status == "success") {
-				if(mailStatus == "S") {
+				if(mailStatus == "S" || mailStatus == "M") {
 					alert("메일이 전송되었습니다.");	
 				} else {
 					alert("메일이 저장되었습니다.");
@@ -210,12 +235,11 @@ $(document).ready(function() {
 		fnct_AddFiles(this.files); 
 	});		
 	
-	var mailNo = "${mailNo}";	
-	var mailStatus = "${mailStatus}";	
+	var mailNo = "${mailNo}";		
 	/* 내게쓰기로 들어온 경우 */
-	if(mailStatus == "M") {			
+	if("${mailStatus}" == "M") {			
 		var usermail = "${loginVO.usermail}";
-		$("#toUserW").val(usermail);
+		$("#toUserW").val(usermail);		
 	}	
 	/* 임시보관함에서 메일쓰기로 넘어오는 경우 */
 	if(mailNo != "" && mailNo != undefined) {

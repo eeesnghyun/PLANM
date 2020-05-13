@@ -44,7 +44,7 @@ public class FileUtil {
 		String fileFullName = "";					// 파일 이름(확장자 포함)
 		String fileType = "";						// 파일 확장자				
 		String fileUploadTime = sdf.format(date);	// 파일 업로드 시간(yyyymmddhhmmss)			
-		String uploadFileName = null;				// 최종 업로드 파일명
+		String uploadFileName = "";				// 최종 업로드 파일명
 		
 		try {
 			Iterator<String> itr =  mtfRequest.getFileNames();
@@ -53,7 +53,6 @@ public class FileUtil {
         		List<MultipartFile> mpf = mtfRequest.getFiles((String) itr.next());
         		
         		if(!mpf.get(0).getOriginalFilename().equals("")) {
-        			uploadFileName = "";
         			
         			for(int i = 0; i < mpf.size(); i++) {
               			File file = new File(PATH + mpf.get(i).getOriginalFilename());
