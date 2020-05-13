@@ -1,4 +1,4 @@
-# PLANM
+# PLANM:relaxed:
 > PLANM은 무료 ERP 솔루션입니다.<br/>
 
 ## 환경
