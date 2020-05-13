@@ -1,7 +1,7 @@
 # PLANM
 > PLANM은 무료 ERP 솔루션입니다.<br/>
 
-## heavy_check_mark :환경
+## 환경
 + Spring framework
 + Spring Security
 + jdk 1.8
@@ -22,3 +22,4 @@
 
 ## 스크린샷
 <img width="1250px" height="450px" src="https://user-images.githubusercontent.com/47884586/81765268-51a3ee00-950e-11ea-9a2b-718ad7208d71.jpg">
+: straight_ruler :
