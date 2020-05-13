@@ -1,7 +1,7 @@
 # PLANM
 > PLANM은 무료 ERP 솔루션입니다.<br/>
 
-## 환경
+## : heavy_check_mark :환경
 + Spring framework
 + Spring Security
 + jdk 1.8
@@ -13,7 +13,7 @@
 + MyBatis
 + Tiles
 
-📖 ## 오픈소스
+## 오픈소스
 + Bootstrap 4.4
 + Fullcalendar.js
 + SweetAlerts
