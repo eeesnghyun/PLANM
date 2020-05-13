@@ -3,19 +3,19 @@
 
 ***
 
-##환경
+## 환경
 + Spring framework
 + Spring Security
 + jdk 1.8
 + Tomcat 9.0
 + MariaDB
 
-##기술
+## 기술
 + jQuery, jQuery-UI, jQuery-MultiFile
 + MyBatis
 + tiles
 
-##오픈소스
+## 오픈소스
 + Bootstrap 4.4
 + Fullcalendar.js
 + SweetAlerts
