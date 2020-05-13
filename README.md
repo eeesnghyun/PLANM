@@ -23,4 +23,4 @@
 + Ckeditor, CkFinder
 
 ## 스크린샷
-<img width="750px" height="450px" src="https://user-images.githubusercontent.com/47884586/81764820-6469f300-950d-11ea-8eb3-33765b5a5999.jpg">
+<img width="1250px" height="450px" src="https://user-images.githubusercontent.com/47884586/81765268-51a3ee00-950e-11ea-9a2b-718ad7208d71.jpg">
