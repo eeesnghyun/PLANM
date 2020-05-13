@@ -21,5 +21,5 @@ PLANM에서 제공하는 일정관리, 메일, 근태관리, 전자결재 서비
 + ax5grid
 + Ckeditor, CkFinder
 
-## 🖼 스크린샷
+## 📷 스크린샷
 <img width="1250px" height="450px" src="https://user-images.githubusercontent.com/47884586/81765268-51a3ee00-950e-11ea-9a2b-718ad7208d71.jpg">
