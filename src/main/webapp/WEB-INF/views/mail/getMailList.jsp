@@ -5,7 +5,7 @@
 
 <script>
 $(document).ready(function() {	
-	mailStatus = "S";		// 메일 페이지 구분자 (S: 받은편지 / M:내게쓴편지 / U:임시보관함 / P:휴지통)
+	mailStatus = "S";		// 메일 페이지 구분자 (S: 받은편지 / M:내게쓴편지 / P:휴지통)
 	
 	fnct_GetMailList(1);
 });
@@ -76,7 +76,7 @@ $(document).ready(function() {
 	<div class="card" id="card-mail" style="width: 800px">
 		<div class="card-header">
 	    	<div class="float-left">
-	    		<img src="/images/mailopen.png" class="w18-h18"> : <span id="fromUser"></span>
+	    		<img src="/images/mailopen.png" class="w18-h18">&nbsp;<span id="fromUser"></span>
 	    	</div>
 	    	<div class="float-right">
 	    		<button type="button" class="btn-img" onclick="fnct_CloseLayer('mailLayer')"><img src="/images/close.png" class="w10-h10"></button>

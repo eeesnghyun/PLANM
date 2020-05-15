@@ -10,101 +10,6 @@
 <script type="text/javascript" src="/resources/ckeditor/ckeditor.js"></script>
  
 <script>
-/*
- * 메일 리스트 조회
- */
-function fnct_SetMailList(nowPage){	
-	if(nowPage == "" || nowPage == undefined) {
-		nowPage = 1;
-	}
-	
-	var params = {
-			"nowPage" : nowPage
-	};
-	
-	var data = fnct_CallPostAjax("/mail/setMailList.ajax", params);
-	
-	if(data.status == "success") {
-		var resultList = data.resultList;        	 
-	   	var mailHtml   = "";
-	   	var pagingHtml = "";
-	   	var startPage  = data.paging.startPage;
-	   	var endPage    = data.paging.endPage;        	 
-	   	$("#mailListSpace").empty();
-	   	$("#paging").empty();
-	   	
-	   	for(var i = 0; i < resultList.length; i++){
-	   	 	mailHtml += "<div class='row mt-2 pb-1 border-bottom' id='mailList'>";
-	   	 	mailHtml += "	<div class='col-1 text-center'><div class='custom-control custom-checkbox pb-2'>";
-	   	 	mailHtml += "	  <input type='checkbox' class='custom-control-input' id='" + resultList[i].mailno + "' name='mailId'>";
-	   	 	mailHtml += "	     <label class='custom-control-label' for='" + resultList[i].mailno + "'></label>";
-	   	 	mailHtml += "	</div></div>";
-	   	 	mailHtml += "	<div class='col-1 text-center'><img src='/images/file_" + resultList[i].mailfile + ".png' class='w18-h18'></div>";
-	   	 	mailHtml += "	<div class='col-2 text-center'>" + resultList[i].username + "</div>";
-	   		mailHtml += "	<div class='col-4'><a href='javascript:fnct_ShowSetMailContent(" + resultList[i].mailno + ")'>" + resultList[i].mailtitle + "</a></div>";
-	   		mailHtml += "	<div class='col-2 text-center'>" + resultList[i].fromdate + "</div>";
-	   		mailHtml += "	<div class='col-2 text-center'>" + resultList[i].readdate + "</div>";
-	   		mailHtml += "</div>";
-	    }
-	   	
-	   	// 페이징 처리
-	   	if(data.paging.prev) {
-	   		startPage = startPage - 1;
-		   	pagingHtml += "<li class='page-item'>";
-		   	pagingHtml += "	<a class='page-link' href='javascript:fnct_SetMailList(" + startPage + ");' tabindex='-1' aria-disabled='true'>이전</a>";
-		   	pagingHtml += "</li>";
-	   	}
-	   	
-	   	for(var i = startPage; i < endPage; i++){            	
-	   		pagingHtml += "<li class='page-item'>";    
-	   		pagingHtml += "	<a class='page-link' href='javascript:fnct_SetMailList(" + i + ");'>" + i + "</a>";
-	   		pagingHtml += "</li>";
-	   	}
-	   	 
-	   	if(data.paging.next && endPage > 0) {
-	   		endPage = endPage + 1;
-	   		pagingHtml += "<li class='page-item'>";
-	   		pagingHtml += "	<a class='page-link' href='javascript:fnct_SetMailList(" + endPage + ");'>다음</a>";
-			pagingHtml += "</li>";
-	   	}
-	   	      	       	         	 
-	   	$("#mailListSpace").append(mailHtml);
-	   	$("#paging").append(pagingHtml);
-	}	
-}
-
-/*
- * 메일 내용 조회
- */
-function fnct_ShowSetMailContent(mailNo) {
-	var params = {
-			"mailNo" : mailNo
-	};
-	
-	var data = fnct_CallPostAjax("/mail/setMailContent.ajax", params);
-	
-	if(data.status == "success") {
-		var result = data.result;
-    	var fromuser = result.username + "(" + result.fromuser + ")" + " - " + result.fromdate;
-      	
-    	$("#reply-content").empty();
-    	$("#mailNo").val(result.mailno);
-    	$("#mailTitle").html(result.mailtitle);		// 메일 제목
-    	$("#mailContent").html(result.mailcontent);	// 메일 내용
-    	$("#toUser").html(result.touser);			// 받는 사람
-    	$("#ccUser").html(result.ccuser);			// 참조
-    	$("#mailFile").html(result.mailfile);		// 첨부 파일
-    	$("#fromUser").html(fromuser);        		// 보낸 사람
-    	
-    	$("#mailLayer").show();        	
-    	$("#card-mail").draggable({						 	// 팝업창 드래그							
-			//containment: '#',				 	// 드래그 범위 지정
-			opacity: 0.7,							 	// 드래그시 투명도
-			cancel: '.card-body' 					 	// .card-body 클래스를 제외한 영역에서 드래그 가능				
-		});     	
-	}
-}
-
 $(document).ready(function() {
 	fnct_SetMailList();
 });
@@ -155,7 +60,7 @@ $(document).ready(function() {
 		<div class="col-1"><h6><strong>첨부</strong></h6></div>
 		<div class="col-2"><h6><strong>보낸사람</strong></h6></div>
 		<div class="col-4"><h6><strong>제목</strong></h6></div>
-		<div class="col-2"><h6><strong>받은날짜</strong></h6></div>
+		<div class="col-2"><h6><strong>보낸날짜</strong></h6></div>
 		<div class="col-2"><h6><strong>읽은날짜</strong></h6></div>
 	</div>
 </div>
@@ -195,7 +100,7 @@ $(document).ready(function() {
 	<div class="card" id="card-mail" style="width: 800px">
 		<div class="card-header">
 	    	<div class="float-left">
-	    		<img src="/images/mailopen.png" class="w18-h18"> : <span id="fromUser"></span>
+	    		<img src="/images/mailopen.png" class="w18-h18">&nbsp;<span id="fromUser"></span>
 	    	</div>
 	    	<div class="float-right">
 	    		<button type="button" class="btn-img" onclick="fnct_CloseLayer('mailLayer')"><img src="/images/close.png" class="w10-h10"></button>

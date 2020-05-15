@@ -32,48 +32,28 @@ public class MailServiceImpl implements MailService {
 	@Override
 	public void sendMail(MailVO mailVO) throws Exception {		
 		String toUserCd   = mailVO.getTousercd();
-		String ccUserCd   = mailVO.getCcusercd();
-		String mailNo     =  mailVO.getMailno();				
+		String ccUserCd   = mailVO.getCcusercd();					
 		String[] toUserCdArr   = toUserCd.split(",");
 		String[] ccUserCdArr   = ccUserCd.split(",");			
-					
-		if(mailVO.getMailstatus().equals("U")) {	// 임시저장
-			mailVO.setMailno(mailDao.getMailNo(mailVO.getCmpcd()));		
-			mailDao.sendMail(mailVO);
-		} else {									// 메일 보내기
-			/* 받는 사람에게 메일 전송 */
-			if(toUserCd.length() > 0) {
-				if(mailNo.equals("X")) {	// 신규 메일 작성
-					for(int i = 0; i < toUserCdArr.length; i++) {									
-						mailVO.setMailno(mailDao.getMailNo(mailVO.getCmpcd()));
-						mailVO.setUsercd(toUserCdArr[i]);					
-						mailDao.sendMail(mailVO);
-					}		
-				} else {					// 임시저장 후 메일 작성
-					for(int i = 0; i < toUserCdArr.length; i++) {				
-						mailVO.setUsercd(toUserCdArr[i]);					
 						
-						mailDao.sendMail(mailVO);
-					}	
-				}
-			}			
-			
-			/* 참조자에게 메일 전송 */
-			if(ccUserCd.length() > 0) {
-				if(mailNo.equals("X")) {	// 신규 메일 작성
-					for(int i = 0; i < ccUserCdArr.length; i++) {
-						mailVO.setMailno(mailDao.getMailNo(mailVO.getCmpcd()));
-						mailVO.setUsercd(ccUserCdArr[i]);										
-						mailDao.sendMail(mailVO);
-					}	
-				} else {					// 임시저장 후 메일 작성
-					for(int i = 0; i < ccUserCdArr.length; i++) {
-						mailVO.setUsercd(ccUserCdArr[i]);					
-						mailDao.sendMail(mailVO);
-					}	
-				}			
-			}			
-		}		
+		mailVO.setMailno(mailDao.getMailNo(mailVO.getCmpcd()));
+		mailDao.sendMail(mailVO);
+		
+		/* 받는 사람에게 메일 전송 */
+		if(toUserCd.length() > 0) {					
+			for(int i = 0; i < toUserCdArr.length; i++) {													
+				mailVO.setUsercd(toUserCdArr[i]);					
+				mailDao.sendMail(mailVO);
+			}		
+		}			
+		
+		/* 참조자에게 메일 전송 */
+		if(ccUserCd.length() > 0) {			
+			for(int i = 0; i < ccUserCdArr.length; i++) {				
+				mailVO.setUsercd(ccUserCdArr[i]);										
+				mailDao.sendMail(mailVO);
+			}		
+		}					
 	}
 	
 	@Override

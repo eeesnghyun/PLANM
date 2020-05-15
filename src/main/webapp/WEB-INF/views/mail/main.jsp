@@ -38,10 +38,7 @@ $(document).ready(function() {
 					</tr>
 					<tr>
 						<td colspan="2"><a class="nav-link" href="javascript:fnct_CallPage('setMailList');">보낸메일함</a></td>		
-					</tr>
-					<tr>
-						<td colspan="2"><a class="nav-link" href="javascript:fnct_CallPage('saveList');">임시보관함</a></td>		
-					</tr>
+					</tr>					
 					<tr>
 						<td colspan="2"><a class="nav-link" href="javascript:fnct_CallPage('garbageList');">휴지통</a></td>		
 					</tr>

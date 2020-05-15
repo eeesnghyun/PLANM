@@ -2,9 +2,7 @@ package com.planm.mail.vo;
 
 public class MailVO {
 	private String cmpcd;
-	private String usercd;
-	private String tousercd;
-	private String ccusercd;	
+	private String usercd;		
 	private String username;
 	private String mailno;
 	private String mailtitle;
@@ -12,13 +10,22 @@ public class MailVO {
 	private String mailfile;
 	private String userid;
 	private String fromuser;
+	private String fromusercd;
 	private String touser;
+	private String tousercd;
 	private String ccuser;
+	private String ccusercd;
 	private String fromdate;
 	private String todate;
 	private String mailstatus;
 		
 	
+	public String getFromusercd() {
+		return fromusercd;
+	}
+	public void setFromusercd(String fromusercd) {
+		this.fromusercd = fromusercd;
+	}
 	public String getUsercd() {
 		return usercd;
 	}

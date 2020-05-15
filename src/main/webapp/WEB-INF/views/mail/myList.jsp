@@ -5,7 +5,7 @@
 
 <script>
 $(document).ready(function() {
-	mailStatus = "M";		// 메일 페이지 구분자 (S: 받은편지 / M:내게쓴편지 / U:임시보관함 / P:휴지통)
+	mailStatus = "M";		// 메일 페이지 구분자 (S: 받은편지 / M:내게쓴편지 / P:휴지통)
 	
 	fnct_GetMailList(1);
 });

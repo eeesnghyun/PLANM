@@ -57,7 +57,7 @@ public class MailDao {
 		return mybatis.update("mail.readMailEdit", map);
 	}
 	
-	/** 메일 휴지통 */
+	/** 메일 상태 변경 */
 	public int editMail(Map<String, Object> map) {
 		return mybatis.update("mail.editMail", map);
 	}
@@ -66,4 +66,5 @@ public class MailDao {
 	public int deleteMail(Map<String, Object> map) {
 		return mybatis.delete("mail.deleteMail", map);
 	}
+	
 }

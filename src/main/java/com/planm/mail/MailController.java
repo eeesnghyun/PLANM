@@ -209,16 +209,17 @@ public class MailController {
 
 			mailVO.setCmpcd(loginVO.getCmpcd());
 			mailVO.setUsercd(loginVO.getUsercd());
-        	mailVO.setTousercd(toUserCd);
-        	mailVO.setCcusercd(ccUserCd);
 			mailVO.setMailno(mailNo);
         	mailVO.setMailtitle(convertTomailTitle);				// 메일 제목
 			mailVO.setMailcontent(convertToContent);				// 메일 내용
 			mailVO.setMailfile(sendFileName);						// 첨부 파일
 			mailVO.setUserid(loginVO.getUserid());					// 보낸 사람 ID
 			mailVO.setFromuser(fromUser);							// 보낸 사람 메일
-        	mailVO.setTouser(toUser);								// 받은 사람 메일(전체)
-			mailVO.setCcuser(ccUser); 								// 참조
+			mailVO.setFromusercd(loginVO.getUsercd());     			// 보낸 사람 사번
+        	mailVO.setTouser(toUser);								// 받는 사람 메일(전체)
+        	mailVO.setTousercd(toUserCd);							// 받는 사람 사번(전체) 
+			mailVO.setCcuser(ccUser); 								// 참조 메일(전체)
+			mailVO.setCcusercd(ccUserCd);							// 참조 사번(전체)
         	mailVO.setMailstatus(mailStatus);						// 메일 상태
 			
 			mailService.sendMail(mailVO);
@@ -314,7 +315,7 @@ public class MailController {
 			map.put("cmpcd"		 , loginVO.getCmpcd());
 			map.put("startNum"   , pagingVO.getStartNum());
 			map.put("nowPageCnt" , pagingVO.getNowPageCnt());
-			map.put("userid"     , loginVO.getUserid());
+			map.put("fromusercd" , loginVO.getUsercd());
 			
 			int totalPage = pagingService.setMailListTotalCount(map);			
 
@@ -345,17 +346,14 @@ public class MailController {
 		try {			
 			String mailNo = json.get("mailNo").toString(); 
 			
-			map.put("cmpcd"	 , loginVO.getCmpcd());
-			map.put("userid" , loginVO.getUserid());
-			map.put("mailno" , mailNo);
+			map.put("cmpcd"	     , loginVO.getCmpcd());
+			map.put("fromusercd" , loginVO.getUsercd());
+			map.put("mailno" 	 , mailNo);
 			
 			Map<String, Object> mailContent = mailService.setMailContent(map);
-			
-			int cnt = mailService.readMailEdit(map);		
-			if(cnt > 0) {
-				result.put("result", mailContent);	
-				result.put("status", "success");
-			}			
+	
+			result.put("result", mailContent);	
+			result.put("status", "success");		
 		} catch (Exception e) {			
 			e.printStackTrace();
 			result.put("status", "error");
@@ -385,6 +383,7 @@ public class MailController {
 				map.put("mailno"  , mailNo);
 			}	
 			map.put("cmpcd"	    , loginVO.getCmpcd());
+			map.put("usercd"    , loginVO.getUsercd());
 			map.put("mailList"  , mailList);
 			map.put("mailStatus", json.get("mailStatus"));
 		

@@ -31,7 +31,7 @@ function fnct_GetUsermail(id){
 	var data = fnct_CallPostAjax("/mail/getUsermail.ajax", params);
 	
 	if(data.status == "success") {
-		/* 메일 주수록 열기 */
+		/* 메일 주소록 열기 */
    	 	fnct_OpenLayer('', 'searchUsermail', 500, 250);	                	        	        	
  
         firstGrid.setConfig({
@@ -55,8 +55,14 @@ function fnct_ChooseMail(){
 	var mailHtml = "";
 	var userId = "#" + userFlag;
 	
+	if(userFlag == "ccUserW") {		// 참조자
+		ccUserCdStr = "";	
+	} else {
+		toUserCdStr = "";	
+	}
+	
 	for(var i = 0; i < mailList.length; i++){
-		if(userFlag == "ccUserW") {		// 참조자	
+		if(userFlag == "ccUserW") {	// 참조자	
 			ccUserCdStr += mailList[i].usercd + ",";	
 		} else {
 			toUserCdStr += mailList[i].usercd + ",";
@@ -65,6 +71,12 @@ function fnct_ChooseMail(){
 		mailHtml += mailList[i].usermail + ",";	
 	}
 	
+	if(userFlag == "ccUserW") {		// 참조자	
+		ccUserCdStr = fnct_ReturnRmvStr(ccUserCdStr);	
+	} else {
+		toUserCdStr = fnct_ReturnRmvStr(toUserCdStr);	
+	}	
+		
 	$(userId).val(fnct_ReturnRmvStr(mailHtml));
 	fnct_CloseLayer("searchUsermail");
 }
@@ -121,15 +133,15 @@ function fnct_DeleteFile(orderParam) {
  */
 function fnct_SendMail(flag) {	
 	var mailStatus = flag;	
-	var toUserCd = fnct_ReturnRmvStr(toUserCdStr);
-	var ccUserCd = fnct_ReturnRmvStr(ccUserCdStr);
+	var toUserCd = toUserCdStr;
+	var ccUserCd = ccUserCdStr;
 	var mailTitle = $("#mailTitleW").val();
 	var mailContent = CKEDITOR.instances.mailContentW.getData();		// CKEditor 사용시 Textarea 값 불러오기
 	var mailNo = "${mailNo}";											// 임시저장 후에 메일 작성하는 경우 사용
-		
+	
 	/* 내게쓰기로 들어온 경우 */
 	if("${mailStatus}" == "M") {
-		mailStatus = "M";
+		mailStatus = "S";
 		toUserCd = "${loginVO.usercd}";
 	}
 	
@@ -141,11 +153,12 @@ function fnct_SendMail(flag) {
 	if(mailNo == "" || mailNo == undefined) mailNo = "X"
 	
 	var formData = new FormData($("#frmW")[0]);
-	formData.append("toUserCd"   , toUserCd);
-	formData.append("ccUserCd"   , ccUserCd);
+	
 	formData.append("mailNo"     , mailNo);
 	formData.append("toUser"     , $("#toUserW").val());
+	formData.append("toUserCd"   , toUserCd);
 	formData.append("ccUser"     , $("#ccUserW").val());
+	formData.append("ccUserCd"   , ccUserCd);
 	formData.append("mailTitle"  , $("#mailTitleW").val());
 	formData.append("CkmailContent", mailContent);
 	formData.append("mailStatus" , mailStatus);
@@ -161,13 +174,9 @@ function fnct_SendMail(flag) {
 		processData: false,
 		contentType: false,				
 		success : function(data) {				
-			if(data.status == "success") {
-				if(mailStatus == "S" || mailStatus == "M") {
-					alert("메일이 전송되었습니다.");	
-				} else {
-					alert("메일이 저장되었습니다.");
-				}
-
+			if(data.status == "success") {				
+				alert("메일이 전송되었습니다.");					
+				
 				fnct_MailReset();
 			} else {
 				alert("작업에 실패하였습니다.\n관리자에게 문의해주세요.");
@@ -202,25 +211,6 @@ function fnct_FileReset() {
     $("#fileListW").empty();   
 }
 
-/*
- * 메일 내용 조회
- */
-function fnct_GetMailContent(mailNo) {
-	var params = {
-			"mailNo" : mailNo
-	};
-	
-	var data = fnct_CallPostAjax("/mail/getMailContent.ajax", params);
-	
-	if(data.status == "success") {
-		var result = data.result;
-		$("#mailTitleW").val(result.mailtitle);
-		$("#toUserW").val(result.touser);
-		$("#ccUserW").val(result.ccuser);
-		CKEDITOR.instances.mailContentW.setData(result.mailcontent);
-	}
-}
-
 $(document).ready(function() {
 	
 	/* CKEditor 적용 */
@@ -240,11 +230,7 @@ $(document).ready(function() {
 	if("${mailStatus}" == "M") {			
 		var usermail = "${loginVO.usermail}";
 		$("#toUserW").val(usermail);		
-	}	
-	/* 임시보관함에서 메일쓰기로 넘어오는 경우 */
-	if(mailNo != "" && mailNo != undefined) {
-		fnct_GetMailContent(mailNo);
-	}
+	}		
 });
 </script>
 <form:form id="frmW" method="POST"> 
@@ -280,7 +266,6 @@ $(document).ready(function() {
 		<tr class="border-top">
 			<th colspan="2">
 				<button type="button" class="btn btn-outline-secondary" onclick="fnct_SendMail('S')">보내기</button>
-				<button type="button" class="btn btn-outline-secondary" onclick="fnct_SendMail('U')">임시저장</button>
 				<button type="button" class="btn btn-outline-secondary" onclick="fnct_MailReset()">초기화</button>			
 			</th>									    
 		</tr>
@@ -301,7 +286,7 @@ $(document).ready(function() {
     				<div class="input-group-prepend">
 	          			<div class="input-group-text" onclick="fnct_GetUsermail('toUserW')"><img src="/images/address.png" class="w18-h18"></div>
 	        		</div>
-	        		<input type="text" class="form-control" id="toUserW" placeholder="">
+	        		<input type="text" class="form-control" id="toUserW" placeholder="">	        		
     			</div>    			
     		</td>
   		</tr>
@@ -312,7 +297,7 @@ $(document).ready(function() {
     				<div class="input-group-prepend">
 	          			<div class="input-group-text" onclick="fnct_GetUsermail('ccUserW')"><img src="/images/address.png" class="w18-h18"></div>
 	        		</div>
-	        		<input type="text" class="form-control" id="ccUserW" placeholder="">
+	        		<input type="text" class="form-control" id="ccUserW" placeholder="">	        		
     			</div>  
     		</td>	    		
   		</tr>			  		  		
