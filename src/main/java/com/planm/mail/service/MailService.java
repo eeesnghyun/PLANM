@@ -21,16 +21,13 @@ public interface MailService {
 	
 	/** 받은 메일 리스트 */
 	public List<Map<String, Object>> getMailList(Map<String, Object> map) throws Exception;
+	
+	/** 휴지통 */
+	public List<Map<String, Object>> garbageList(Map<String, Object> map) throws Exception;
 		
 	/** 받은 메일 내용 */
 	public Map<String, Object> getMailContent(Map<String, Object> map) throws Exception;
 
-	/** 보낸 메일 리스트 */
-	public List<Map<String, Object>> setMailList(Map<String, Object> map) throws Exception;	
-	
-	/** 보낸 메일 내용 */
-	public Map<String, Object> setMailContent(Map<String, Object> map) throws Exception;
-	
 	/** 메일 읽음 처리 */
 	public int readMailEdit(Map<String, Object> map) throws Exception;
 	

@@ -21,6 +21,11 @@ public class PagingServiceImpl implements PagingService {
 	}
 	
 	@Override
+	public int garbageListTotalCount(Map<String, Object> map) throws Exception {
+		return pagingDao.garbageListTotalCount(map); 
+	}
+	
+	@Override
 	public int setMailListTotalCount(Map<String, Object> map) throws Exception {
 		return pagingDao.setMailListTotalCount(map); 
 	}

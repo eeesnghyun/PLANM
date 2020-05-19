@@ -61,7 +61,7 @@ function fnct_SetMailStatus(mailStatus) {
 			alert("메일이 휴지통으로 이동되었습니다.");	
 		} else if(mailStatus == "D") {
 			alert("메일이 삭제되었습니다.");
-		} else if(mailStatus == "S") {
+		} else if(mailStatus == "G") {
 			alert("메일이 받은메일함으로 이동되었습니다.")
 		}
 		
@@ -115,7 +115,14 @@ function fnct_GetMailList(nowPage){
 	   	 	mailHtml += "	<div class='col-2 text-center'>" + resultList[i].fromusername + "</div>";
 	   		mailHtml += "	<div class='col-4'><a href='javascript:fnct_ShowMailContent(" + resultList[i].mailno + ")'>" + resultList[i].mailtitle + "</a></div>";
 	   		mailHtml += "	<div class='col-2 text-center'>" + resultList[i].fromdate + "</div>";
-	   		mailHtml += "	<div class='col-2 text-center'>" + resultList[i].readdate + "</div>";
+	   		
+	   		// 보낸 메일함
+	   		if(mailStatus == "S") {	
+	   			mailHtml += "	<div class='col-2 text-center'><img class='w18-h18' src='/images/read" + resultList[i].readdate + ".png'></div>";	
+	   		} else {
+	   			mailHtml += "	<div class='col-2 text-center'>" + resultList[i].readdate + "</div>";
+	   		}	   			   			
+	
 	   		mailHtml += "</div>";
 	    }
 	   	
@@ -219,7 +226,7 @@ function fnct_SetMailList(nowPage){
 	   	 	mailHtml += "	<div class='col-2 text-center'>" + resultList[i].fromusername + "</div>";
 	   		mailHtml += "	<div class='col-4'><a href='javascript:fnct_ShowSetMailContent(" + resultList[i].mailno + ")'>" + resultList[i].mailtitle + "</a></div>";
 	   		mailHtml += "	<div class='col-2 text-center'>" + resultList[i].fromdate + "</div>";
-	   		mailHtml += "	<div class='col-2 text-center'>" + resultList[i].readdate + "</div>";
+	   		mailHtml += "	<div class='col-2 text-center'><img class='w18-h18' src='/images/read" + resultList[i].readdate + ".png'></div>";
 	   		mailHtml += "</div>";
 	    }
 	   	

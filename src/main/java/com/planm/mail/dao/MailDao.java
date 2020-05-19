@@ -37,19 +37,14 @@ public class MailDao {
 		return mybatis.selectList("mail.getMailList", map);
 	}
 	
+	/** 휴지통 */	
+	public List<Map<String, Object>> garbageList(Map<String, Object> map) throws Exception {			
+		return mybatis.selectList("mail.garbageList", map);
+	}
+	
 	/** 받은 메일 내용 조회 */
 	public Map<String, Object> getMailContent(Map<String, Object> map) throws Exception {			
 		return mybatis.selectOne("mail.getMailContent", map);
-	}
-	
-	/** 보낸 메일 리스트 */
-	public List<Map<String, Object>> setMailList(Map<String, Object> map) throws Exception {			
-		return mybatis.selectList("mail.setMailList", map);
-	}
-	
-	/** 보낸 메일 내용 조회 */
-	public Map<String, Object> setMailContent(Map<String, Object> map) throws Exception {			
-		return mybatis.selectOne("mail.setMailContent", map);
 	}
 	
 	/** 메일 읽음 처리 */

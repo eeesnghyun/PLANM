@@ -207,8 +207,7 @@ public class MailController {
 			
 			String sendFileName = fileUtil.fileUpload(mtfRequest);
 
-			mailVO.setCmpcd(loginVO.getCmpcd());
-			mailVO.setUsercd(loginVO.getUsercd());
+			mailVO.setCmpcd(loginVO.getCmpcd());			
 			mailVO.setMailno(mailNo);
         	mailVO.setMailtitle(convertTomailTitle);				// 메일 제목
 			mailVO.setMailcontent(convertToContent);				// 메일 내용
@@ -241,27 +240,31 @@ public class MailController {
 		JSONObject json = (JSONObject) JSONValue.parse(jsonParams);
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		try {							
+		PagingController paging = new PagingController();
+		List<Map<String, Object>> resultList;
+		
+		try {			
+			int totalPage = 0;
 			int nowPage = Integer.parseInt(json.get("nowPage").toString());
+			String mailStatus = (String) json.get("mailStatus");
+			
 			pagingVO.setNowPage(nowPage);	
 			
 			map.put("cmpcd"		 , loginVO.getCmpcd());
 			map.put("usercd"     , loginVO.getUsercd());
 			map.put("startNum"   , pagingVO.getStartNum());
 			map.put("nowPageCnt" , pagingVO.getNowPageCnt());			
-			map.put("mailStatus" , json.get("mailStatus"));
-			
-			int totalPage = pagingService.getMailListTotalCount(map);			
-
-			PagingController paging = new PagingController();
+			map.put("mailStatus" , mailStatus);
+					
+			totalPage = pagingService.getMailListTotalCount(map);
+			resultList = mailService.getMailList(map);
+	
 			paging.setPagingVO(pagingVO);
 			paging.setTotalPageCnt(totalPage);			
-			
-			List<Map<String, Object>> resultList = mailService.getMailList(map);
 					
-			result.put("paging", paging);
+			result.put("paging"    , paging);
 			result.put("resultList", resultList);	
-			result.put("status", "success");
+			result.put("status"    , "success");
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.put("result", "ERROR");			
@@ -291,69 +294,6 @@ public class MailController {
 				result.put("result", mailContent);	
 				result.put("status", "success");
 			}			
-		} catch (Exception e) {			
-			e.printStackTrace();
-			result.put("status", "error");
-		}
-		
-		return result;
-	}
-	
-	@RequestMapping(value="/mail/setMailList.ajax", method={ RequestMethod.GET, RequestMethod.POST }, produces="application/json; charset=UTF-8")
-	public @ResponseBody HashMap<String, Object> setMailList(@RequestBody String jsonParams, HttpSession session) {			
-		LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
-		PagingVO pagingVO = new PagingVO();	
-		
-		JSONObject result = new JSONObject(); 											
-		JSONObject json = (JSONObject) JSONValue.parse(jsonParams);
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		try {							
-			int nowPage = Integer.parseInt(json.get("nowPage").toString());
-			pagingVO.setNowPage(nowPage);	
-				
-			map.put("cmpcd"		 , loginVO.getCmpcd());
-			map.put("startNum"   , pagingVO.getStartNum());
-			map.put("nowPageCnt" , pagingVO.getNowPageCnt());
-			map.put("fromusercd" , loginVO.getUsercd());
-			
-			int totalPage = pagingService.setMailListTotalCount(map);			
-
-			PagingController paging = new PagingController();
-			paging.setPagingVO(pagingVO);
-			paging.setTotalPageCnt(totalPage);			
-			
-			List<Map<String, Object>> resultList = mailService.setMailList(map);
-					
-			result.put("paging", paging);
-			result.put("resultList", resultList);	
-			result.put("status", "success");
-		} catch (Exception e) {
-			e.printStackTrace();
-			result.put("result", "ERROR");			
-		}
-		
-		return result;
-	}
-	
-	@RequestMapping(value="/mail/setMailContent.ajax", method={ RequestMethod.GET, RequestMethod.POST }, produces="application/json; charset=UTF-8")
-	public @ResponseBody HashMap<String, Object> setMailContent(@RequestBody String jsonParams, HttpSession session) {			
-		LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");		
-		JSONObject result = new JSONObject(); 											
-		JSONObject json = (JSONObject) JSONValue.parse(jsonParams);
-		Map<String, Object> map = new HashMap<String, Object>();					
-					
-		try {			
-			String mailNo = json.get("mailNo").toString(); 
-			
-			map.put("cmpcd"	     , loginVO.getCmpcd());
-			map.put("fromusercd" , loginVO.getUsercd());
-			map.put("mailno" 	 , mailNo);
-			
-			Map<String, Object> mailContent = mailService.setMailContent(map);
-	
-			result.put("result", mailContent);	
-			result.put("status", "success");		
 		} catch (Exception e) {			
 			e.printStackTrace();
 			result.put("status", "error");

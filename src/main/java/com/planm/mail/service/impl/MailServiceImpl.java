@@ -36,8 +36,7 @@ public class MailServiceImpl implements MailService {
 		String[] toUserCdArr   = toUserCd.split(",");
 		String[] ccUserCdArr   = ccUserCd.split(",");			
 						
-		mailVO.setMailno(mailDao.getMailNo(mailVO.getCmpcd()));
-		mailDao.sendMail(mailVO);
+		mailVO.setMailno(mailDao.getMailNo(mailVO.getCmpcd()));		
 		
 		/* 받는 사람에게 메일 전송 */
 		if(toUserCd.length() > 0) {					
@@ -53,12 +52,23 @@ public class MailServiceImpl implements MailService {
 				mailVO.setUsercd(ccUserCdArr[i]);										
 				mailDao.sendMail(mailVO);
 			}		
-		}					
+		}	
+		
+		if(!mailVO.getMailstatus().equals("M")) {
+			mailVO.setUsercd(mailVO.getFromusercd());
+			mailVO.setMailstatus("S");
+			mailDao.sendMail(mailVO);	
+		}		
 	}
 	
 	@Override
 	public List<Map<String, Object>> getMailList(Map<String, Object> map) throws Exception {
 		return mailDao.getMailList(map);
+	}
+	
+	@Override
+	public List<Map<String, Object>> garbageList(Map<String, Object> map) throws Exception {
+		return mailDao.garbageList(map);
 	}
 
 	@Override
@@ -66,16 +76,6 @@ public class MailServiceImpl implements MailService {
 		return mailDao.getMailContent(map);
 	}
 
-	@Override
-	public List<Map<String, Object>> setMailList(Map<String, Object> map) throws Exception {
-		return mailDao.setMailList(map);
-	}
-	
-	@Override
-	public Map<String, Object> setMailContent(Map<String, Object> map) throws Exception {		
-		return mailDao.setMailContent(map);
-	}
-	
 	@Override
 	public int readMailEdit(Map<String, Object> map) throws Exception {		
 		return mailDao.readMailEdit(map);
@@ -90,7 +90,7 @@ public class MailServiceImpl implements MailService {
 			result = mailDao.deleteMail(map);				
 		} else {
 			/**
-			 * map - U : 임시보관, P : 휴지통, M : 내게쓴메일함
+			 * map - P : 휴지통, M : 내게쓴메일함
 			 */
 			result = mailDao.editMail(map);		
 		}

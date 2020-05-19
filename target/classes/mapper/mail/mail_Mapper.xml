@@ -77,40 +77,30 @@
 		       END MAILFILE	
 		     , (SELECT USERNAME FROM PM_USER WHERE USERCD = A.FROMUSERCD) FROMUSERNAME	     	     
 		     , A.FROMUSER
-		     , DATE_FORMAT(A.FROMDATE, '%Y:%m:%d %H:%i') FROMDATE
-		     , CASE WHEN IFNULL(A.READDATE, 'X') = 'X' THEN '-'
-		     	    ELSE DATE_FORMAT(A.READDATE, '%Y:%m:%d %H:%i')
+		     , DATE_FORMAT(A.FROMDATE, '%Y.%m.%d %H:%i') FROMDATE		     
+		 <choose>
+		 	<when test='mailStatus == "G"'>
+		 	<!-- 받은 메일함 -->
+		 	, CASE WHEN IFNULL(A.READDATE, 'X') = 'X' THEN '-'
+		    	   ELSE DATE_FORMAT(A.READDATE, '%Y.%m.%d %H:%i')
+		       END READDATE		 		 		
+		 	</when>
+		 	<otherwise>
+		 	<!-- 보낸 메일함 -->
+			, CASE WHEN (SELECT IFNULL(MAX(READDATE),'X') FROM PM_MAIL WHERE CMPCD=A.CMPCD AND MAILNO=A.MAILNO) = 'X' THEN 'X'
+		     	   ELSE 'O'
 		       END READDATE
+		 	</otherwise>		   	
+		 </choose>
 		  FROM PM_MAIL A		 
-		 WHERE A.CMPCD      = #{cmpcd}
-		   AND A.USERCD     = #{usercd}
+		 WHERE A.CMPCD = #{cmpcd}	
+		   AND A.USERCD  = #{usercd}			   
 		   AND A.MAILSTATUS = #{mailStatus}
 		 ORDER BY A.FROMDATE DESC
 		 LIMIT #{startNum}, #{nowPageCnt} 
 	</select>	
 	
-	<select id="getMailContent" resultType="LowerKeyMap" parameterType="hashMap">
-		SELECT
-			    A.MAILNO
-			  , A.USERCD			  
-			  , A.MAILTITLE
-			  , A.MAILCONTENT
-			  , IFNULL(A.MAILFILE,'X') MAILFILE
-			  , (SELECT USERNAME FROM PM_USER WHERE USERCD = A.FROMUSERCD) FROMUSERNAME
-			  , A.FROMUSER			  
-			  , A.FROMUSERCD
-			  , DATE_FORMAT(A.FROMDATE, '%Y:%m:%d %H:%i') FROMDATE
-			  , A.TOUSER
-			  , A.TOUSERCD
-			  , A.CCUSER	
-			  , A.CCUSERCD		  
-		  FROM PM_MAIL A
-		 WHERE A.CMPCD	  = #{cmpcd}
-		   AND A.USERCD   = #{usercd} 
-		   AND A.MAILNO   = #{mailno} 
-	</select>
-	
-	<select id="setMailList" resultType="LowerKeyMap" parameterType="hashMap">
+	<select id="garbageList" resultType="LowerKeyMap" parameterType="hashMap">
 		SELECT
 			   MAX(A.MAILNO) MAILNO
 			 , COUNT(A.USERCD) USERCD
@@ -122,36 +112,37 @@
 		     , (SELECT USERNAME FROM PM_USER WHERE USERCD = A.FROMUSERCD) FROMUSERNAME	     
 		     , MAX(A.FROMUSER) FROMUSER
 		     , MAX(A.FROMUSERCD) FROMUSERCD
-		     , DATE_FORMAT(MAX(A.FROMDATE), '%Y:%m:%d %H:%i') FROMDATE
-		     , CASE WHEN IFNULL(MAX(A.READDATE), 'X') = 'X' THEN '-'
-		     	    ELSE DATE_FORMAT(MAX(A.READDATE), '%Y:%m:%d %H:%i')
+		     , DATE_FORMAT(MAX(A.FROMDATE), '%Y.%m.%d %H:%i') FROMDATE
+		     , CASE WHEN IFNULL(MAX(A.READDATE), 'X') = 'X' THEN  'X'
+		     	    ELSE 'O'
 		       END READDATE
 		  FROM PM_MAIL A		 
-		 WHERE A.CMPCD		= #{cmpcd}
-		   AND A.FROMUSERCD = #{fromusercd}		   
+		 WHERE A.CMPCD	 = #{cmpcd}
+		   AND (A.USERCD = #{usercd} OR A.FROMUSERCD = #{fromusercd})		   
 		 GROUP BY A.MAILNO
 		 ORDER BY A.FROMDATE DESC
-		 LIMIT #{startNum}, #{nowPageCnt} 	
+		 LIMIT #{startNum}, #{nowPageCnt} 
 	</select>	
-	
-	<select id="setMailContent" resultType="LowerKeyMap" parameterType="hashMap">		
+ 	
+	<select id="getMailContent" resultType="LowerKeyMap" parameterType="hashMap">
 		SELECT
-			 	MAX(A.MAILNO) MAILNO
-			  , COUNT(A.USERCD) 			  
-			  , MAX(A.MAILTITLE) MAILTITLE
-			  , MAX(A.MAILCONTENT) MAILCONTENT
-			  , IFNULL(MAX(A.MAILFILE),'X') MAILFILE
+			    A.MAILNO
+			  , A.USERCD			  
+			  , A.MAILTITLE
+			  , A.MAILCONTENT
+			  , IFNULL(A.MAILFILE,'X') MAILFILE
 			  , (SELECT USERNAME FROM PM_USER WHERE USERCD = A.FROMUSERCD) FROMUSERNAME
-			  , MAX(A.FROMUSER) FROMUSER
-			  , MAX(A.FROMUSERCD) FROMUSERCD
-			  , DATE_FORMAT(MAX(A.FROMDATE), '%Y:%m:%d %H:%i') FROMDATE
-			  , MAX(A.TOUSER) TOUSER
-			  , MAX(A.CCUSER) CCUSER		  
+			  , A.FROMUSER			  
+			  , A.FROMUSERCD
+			  , DATE_FORMAT(A.FROMDATE, '%Y.%m.%d %H:%i') FROMDATE
+			  , A.TOUSER
+			  , A.TOUSERCD
+			  , A.CCUSER	
+			  , A.CCUSERCD		  
 		  FROM PM_MAIL A
-		 WHERE A.CMPCD  	= #{cmpcd}
-		   AND A.FROMUSERCD = #{fromusercd}	
-		   AND A.MAILNO 	= #{mailno} 
-		 GROUP BY A.MAILNO		   
+		 WHERE A.CMPCD	  = #{cmpcd}
+		   AND A.USERCD   = #{usercd} 
+		   AND A.MAILNO   = #{mailno} 
 	</select>
 	
 	<update id="readMailEdit" parameterType="hashMap">
@@ -165,8 +156,9 @@
 	<update id="editMail" parameterType="hashMap">
 		UPDATE PM_MAIL
 		   SET MAILSTATUS = #{mailStatus}
-		 WHERE CMPCD = #{cmpcd}
+		 WHERE CMPCD = #{cmpcd}		 		 		
 		   AND USERCD = #{usercd}
+		 	
 		 <choose>
 		 	<when test="mailList.size != 0">
 		 		AND MAILNO IN

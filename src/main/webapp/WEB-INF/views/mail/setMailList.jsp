@@ -11,7 +11,9 @@
  
 <script>
 $(document).ready(function() {
-	fnct_SetMailList();
+	mailStatus = "S";		// 메일 페이지 구분자 (G: 받은편지 / M:내게쓴편지 / S:보낸편지 / P:휴지통)
+	
+	fnct_GetMailList(1);
 });
 </script>
 <!-- 사용자 메일 리스트 -->
@@ -45,6 +47,10 @@ $(document).ready(function() {
 			<th colspan="4">
 				<button type="button" class="btn btn-outline-secondary" onclick="fnct_SetMailStatus('P')">휴지통</button>
 				<button type="button" class="btn btn-outline-secondary" onclick="fnct_SetMailStatus('D')">삭 제</button>												
+			</th>
+			<th class="text-right">
+				<img class="w18-h18 mr-1" src="/images/readO.png">확인완료&nbsp;
+				<img class="w18-h18 mr-1" src="/images/readX.png">확인중
 			</th>									    
 		</tr>
 	</table>
@@ -61,7 +67,7 @@ $(document).ready(function() {
 		<div class="col-2"><h6><strong>보낸사람</strong></h6></div>
 		<div class="col-4"><h6><strong>제목</strong></h6></div>
 		<div class="col-2"><h6><strong>보낸날짜</strong></h6></div>
-		<div class="col-2"><h6><strong>읽은날짜</strong></h6></div>
+		<div class="col-2"><h6><strong>상태</strong></h6></div>
 	</div>
 </div>
 

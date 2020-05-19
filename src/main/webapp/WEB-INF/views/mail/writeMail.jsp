@@ -140,9 +140,10 @@ function fnct_SendMail(flag) {
 	var mailNo = "${mailNo}";											// 임시저장 후에 메일 작성하는 경우 사용
 	
 	/* 내게쓰기로 들어온 경우 */
-	if("${mailStatus}" == "M") {
-		mailStatus = "S";
+	if("${mailStatus}" == "M") {		
+		mailStatus = "M";
 		toUserCd = "${loginVO.usercd}";
+		alert($("#toUserW").val());
 	}
 	
 	if(mailTitle == "") {
@@ -265,7 +266,7 @@ $(document).ready(function() {
 		</tr>
 		<tr class="border-top">
 			<th colspan="2">
-				<button type="button" class="btn btn-outline-secondary" onclick="fnct_SendMail('S')">보내기</button>
+				<button type="button" class="btn btn-outline-secondary" onclick="fnct_SendMail('G')">보내기</button>
 				<button type="button" class="btn btn-outline-secondary" onclick="fnct_MailReset()">초기화</button>			
 			</th>									    
 		</tr>

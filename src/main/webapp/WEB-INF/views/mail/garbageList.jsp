@@ -20,7 +20,7 @@ $(document).ready(function() {
 		</tr>
 		<tr class="border-top">
 			<th colspan="4">
-				<button type="button" class="btn btn-outline-secondary" onclick="fnct_SetMailStatus('S')">메일복구</button>			
+				<button type="button" class="btn btn-outline-secondary" onclick="fnct_SetMailStatus('G')">메일복구</button>			
 				<button type="button" class="btn btn-outline-secondary" onclick="fnct_SetMailStatus('D')">삭 제</button>								
 			</th>									    
 		</tr>
@@ -37,8 +37,7 @@ $(document).ready(function() {
 		<div class="col-1"><h6><strong>첨부</strong></h6></div>
 		<div class="col-2"><h6><strong>보낸사람</strong></h6></div>
 		<div class="col-4"><h6><strong>제목</strong></h6></div>
-		<div class="col-2"><h6><strong>받은날짜</strong></h6></div>
-		<div class="col-2"><h6><strong>읽은날짜</strong></h6></div>
+		<div class="col-2"><h6><strong>받은날짜</strong></h6></div>		
 	</div>
 </div>
 
@@ -90,7 +89,7 @@ $(document).ready(function() {
 	  	</div>
 	  	<div class="card-footer">
 	  		<div class="text-center">
-		  		<button type="button" class="btn btn-outline-secondary" onclick="fnct_SetMailStatus('S')">메일복구</button>		
+		  		<button type="button" class="btn btn-outline-secondary" onclick="fnct_SetMailStatus('G')">메일복구</button>		
 		  		<button type="button" class="btn btn-outline-secondary" onclick="fnct_SetMailStatus('D')">삭 제</button>		
 			</div>			
 	  	</div>

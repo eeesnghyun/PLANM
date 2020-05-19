@@ -8,6 +8,8 @@ public interface PagingService {
 
 	public int getMailListTotalCount(Map<String, Object> map) throws Exception;
 	
+	public int garbageListTotalCount(Map<String, Object> map) throws Exception;
+	
 	public int setMailListTotalCount(Map<String, Object> map) throws Exception;
 	
 }

@@ -11,6 +11,14 @@
 		   AND MAILSTATUS = #{mailStatus}
 	</select>
 	
+	<select id="garbageListTotalCount" resultType="Integer" parameterType="hashMap">
+		SELECT COUNT(MAILNO) CNT
+		  FROM PM_MAIL
+		 WHERE CMPCD      = #{cmpcd}
+		   AND (FROMUSERCD = #{usercd} OR USERCD = #{usercd})
+		   AND MAILSTATUS = 'P'
+	</select>
+	
 	<select id="setMailListTotalCount" resultType="Integer" parameterType="hashMap">
 		SELECT COUNT(MAILNO) CNT
 		  FROM PM_MAIL

@@ -19,6 +19,11 @@ public class PagingDao {
 		return mybatis.selectOne("paging.getMailListTotalCount", map);
 	}
 	
+	/* 페이징을 위한 휴지통 갯수 */
+	public int garbageListTotalCount(Map<String, Object> map) throws Exception {
+		return mybatis.selectOne("paging.garbageListTotalCount", map);
+	}
+	
 	/* 페이징을 위한 보낸 메일 갯수 */
 	public int setMailListTotalCount(Map<String, Object> map) throws Exception {
 		return mybatis.selectOne("paging.setMailListTotalCount", map);
