@@ -29,4 +29,9 @@ public class PagingServiceImpl implements PagingService {
 	public int setMailListTotalCount(Map<String, Object> map) throws Exception {
 		return pagingDao.setMailListTotalCount(map); 
 	}
+
+	@Override
+	public int getNoticeListTotalCount(String cmpcd) throws Exception {		
+		return pagingDao.getNoticeListTotalCount(cmpcd);
+	}
 }

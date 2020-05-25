@@ -205,7 +205,7 @@ public class MailController {
 			String convertTomailTitle   = new String(mailTitle[0].getBytes("8859_1"),"utf-8");  		
 			String convertToContent = new String(mailContent[0].getBytes("8859_1"),"utf-8");
 			
-			String sendFileName = fileUtil.fileUpload(mtfRequest);
+			String sendFileName = fileUtil.fileUpload(mtfRequest, "mail");
 
 			mailVO.setCmpcd(loginVO.getCmpcd());			
 			mailVO.setMailno(mailNo);

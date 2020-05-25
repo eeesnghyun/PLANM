@@ -12,4 +12,6 @@ public interface PagingService {
 	
 	public int setMailListTotalCount(Map<String, Object> map) throws Exception;
 	
+	public int getNoticeListTotalCount(String cmpcd) throws Exception;
+	
 }

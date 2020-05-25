@@ -43,10 +43,12 @@ $(document).ready(function() {
 		<div class="container-fluid">
 			<div class="row" id="content">
 				<div class="col-2" id="left">
+					<!-- 좌측 메뉴 -->
 					<tiles:insertAttribute name="left" />
 				</div>
 				
 				<div class="col-10" id="body">
+					<!-- 메뉴에 해당하는 페이지 위치 -->
 					<tiles:insertAttribute name="body" />
 				</div>
 			</div>

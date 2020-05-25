@@ -136,8 +136,7 @@ IP : <c:out value="${userIp }" /> <br>
 		</nav>
 		
 		<sec:authorize access="isAuthenticated()">
-			<form:form id="frm_header1" action="/logout.do" method="POST">	
-				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> 		
+			<form:form id="frm_header1" action="/logout.do" method="POST">					 	
 		 	</form:form>
 		</sec:authorize>	
 	</div>

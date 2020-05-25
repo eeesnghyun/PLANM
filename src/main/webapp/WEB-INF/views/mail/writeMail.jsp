@@ -327,7 +327,7 @@ $(document).ready(function() {
   		</tr>
   		<tr>
   			<td colspan="2">
-  				<textarea class="form-control" name="mailContentW" id="mailContentW" style="height: 400px"></textarea>
+  				<textarea class="form-control" name="mailContentW" id="mailContentW"></textarea>
   			</td>
   		</tr>				  				  
 	</tbody>

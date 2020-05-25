@@ -28,4 +28,9 @@ public class PagingDao {
 	public int setMailListTotalCount(Map<String, Object> map) throws Exception {
 		return mybatis.selectOne("paging.setMailListTotalCount", map);
 	}
+
+	/* 페이징을 위한 공지사항 갯수 */
+	public int getNoticeListTotalCount(String cmpcd) throws Exception {
+		return mybatis.selectOne("paging.getNoticeListTotalCount", cmpcd);
+	}
 }

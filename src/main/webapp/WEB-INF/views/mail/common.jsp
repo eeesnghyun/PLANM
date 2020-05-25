@@ -171,7 +171,7 @@ function fnct_ShowMailContent(mailNo) {
     	    	
     	if(result.mailfile != "X") {
     		for(var i in fileArr) {
-        		mailfile += "<a href='/file/download.do?fileName=" + fileArr[i] + "'>" + fileArr[i] + "</a><br>";       		
+        		mailfile += "<a href='/file/download.do?filePath=mail&fileName=" + fileArr[i] + "'>" + fileArr[i] + "</a><br>";       		
         	}    		
     	}    	
     	
@@ -275,7 +275,7 @@ function fnct_ShowSetMailContent(mailNo) {
     	    	
     	if(result.mailfile != "X") {
     		for(var i in fileArr) {
-        		mailfile += "<a href='/file/download.do?fileName=" + fileArr[i] + "'>" + fileArr[i] + "</a><br>";       		
+        		mailfile += "<a href='/file/download.do?filePath=mail&fileName=" + fileArr[i] + "'>" + fileArr[i] + "</a><br>";       		
         	}    		
     	}    	
     	

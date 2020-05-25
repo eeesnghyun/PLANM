@@ -33,20 +33,29 @@ public class FileUtil {
   
 	private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 	
-    public String fileUpload(MultipartHttpServletRequest mtfRequest) {
+	/*
+	 * 파일 업로드
+	 */
+    public String fileUpload(MultipartHttpServletRequest mtfRequest, String uploadPath) {
     	CommonUtil commonUtil = new CommonUtil();
     	
     	SimpleDateFormat sdf = new SimpleDateFormat ( "yyyyMMddHHmmss");		
 		Date date = new Date();
     	
-    	String PATH = "D:\\PLANM\\file\\mail\\";	// 파일 저장 경로
-		String fileName = "";						// 파일 이름(확장자 제외)
-		String fileFullName = "";					// 파일 이름(확장자 포함)
-		String fileType = "";						// 파일 확장자				
-		String fileUploadTime = sdf.format(date);	// 파일 업로드 시간(yyyymmddhhmmss)			
-		String uploadFileName = "";				// 최종 업로드 파일명
+    	String PATH = "D:\\PLANM\\file\\" + uploadPath + "\\";	// 파일 저장 경로
+		String fileName = "";							// 파일 이름(확장자 제외)
+		String fileFullName = "";						// 파일 이름(확장자 포함)
+		String fileType = "";							// 파일 확장자				
+		String fileUploadTime = sdf.format(date);		// 파일 업로드 시간(yyyymmddhhmmss)			
+		String uploadFileName = "";						// 최종 업로드 파일명
 		
 		try {
+			// 파일 저장 경로가 없다면 생성
+			File dir = new File(PATH);			
+			if (!dir.isDirectory()) {
+				dir.mkdirs(); 
+			}
+
 			Iterator<String> itr =  mtfRequest.getFileNames();
 			
 			if(itr.hasNext()) {				
@@ -84,10 +93,10 @@ public class FileUtil {
     }
         
     @RequestMapping(value="/file/download.do", method={ RequestMethod.GET })
-    public ModelAndView download(@RequestParam("fileName")String fileName){
+    public ModelAndView download(@RequestParam("filePath")String filePath, @RequestParam("fileName")String fileName){
     	
-    	String PATH = "D:\\PLANM\\file\\mail\\";	// 파일 저장 경로
-        String fullPath = PATH + "\\" + fileName;
+    	String PATH = "D:\\PLANM\\file\\" + filePath + "\\";	// 파일 저장 경로
+        String fullPath = PATH + fileName;
          
         File file = new File(fullPath);
          

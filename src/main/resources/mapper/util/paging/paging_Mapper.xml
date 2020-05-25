@@ -25,4 +25,11 @@
 		 WHERE CMPCD     = #{cmpcd} 
 		   AND USERCD    = #{usercd}		   
 	</select>
+	
+	<select id="getNoticeListTotalCount" resultType="Integer" parameterType="String">
+		SELECT COUNT(NOTICENO) CNT
+		  FROM PM_NOTICE
+		 WHERE CMPCD     = #{cmpcd} 		   		  
+	</select>
+	
 </mapper>

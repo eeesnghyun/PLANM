@@ -9,6 +9,7 @@
 		<typeAlias alias="MailVO" type="com.planm.mail.vo.MailVO"></typeAlias>		
 		<typeAlias alias="ApprovalVO" type="com.planm.approval.vo.ApprovalVO"></typeAlias>
 		<typeAlias alias="ManageVO" type="com.planm.manage.vo.ManageVO"></typeAlias>
+		<typeAlias alias="NoticeVO" type="com.planm.notice.vo.NoticeVO"></typeAlias>
 		
 		<typeAlias alias="hashMap" type="java.util.HashMap" />
 		<typeAlias alias="LowerKeyMap" type="com.planm.util.LowerKeyMap" />
