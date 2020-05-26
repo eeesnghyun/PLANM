@@ -36,7 +36,7 @@ $(document).ready(function() {
 	  		<tr>
 	    		<th>첨부</th>
 	    		<td colspan="5">    	    		
-	    			<a href='/file/download.do?filePath=notice&fileName=<c:out value="${noticeVO.noticefile }" />'><c:out value="${noticeVO.noticefile }" /></a>
+	    			<a href="/file/download.do?filePath=notice&fileName=<c:out value="${noticeVO.noticefile }" />"><c:out value="${noticeVO.noticefile }" /></a>
 	    		</td>    		
 	  		</tr>
 	  		<tr class="border-top">

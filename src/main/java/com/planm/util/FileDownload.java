@@ -33,15 +33,15 @@ public class FileDownload extends AbstractView {
         response.setContentType(getContentType());
         response.setContentLength((int)file.length());
          
-        String fileName = null;
-         
+        String fileName = null;	// 저장될 파일 이름
+        
         // 파일 인코딩
         if(request.getHeader("User-Agent").indexOf("MSIE") > -1) {		// IE 인 경우	             
-            fileName = URLEncoder.encode(file.getName(), "UTF-8");                         
+            fileName = URLEncoder.encode(file.getName(), "UTF-8").replaceAll("\\+", " ");                         
         } else {             
-            fileName = new String(file.getName().getBytes("UTF-8"));
-        }
-        
+            fileName = new String(file.getName().getBytes("UTF-8"), "8859_1");
+        }        
+	 	
         response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
         response.setHeader("Content-Transfer-Encoding", "binary");
       
