@@ -3,7 +3,7 @@
 PLANM은 일정관리, 메일, 근태관리, 전자결재 등의 서비스를 제공합니다.
 -----
 ## ⚙ 환경
-+ Spring framework
++ Spring framework 4.3
 + Spring Security
 + jdk 1.8
 + Tomcat 9.0
