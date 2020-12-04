@@ -20,7 +20,7 @@
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />		
 		<property name="url" value="jdbc:log4jdbc:mysql://127.0.0.1:3306/shxdb" />		
 		<property name="username" value="root" />
-		<property name="password" value="1234" />	
+		<property name="password" value="0591" />	
 	</bean>
 		
 	<!-- <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> -->

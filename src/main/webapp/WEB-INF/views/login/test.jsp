@@ -81,6 +81,8 @@ $(document).ready(function() {
 			<button type="button" class="btn btn-primary" onclick="resetFruit()">초기화</button>			
 		</div>
 	</div>
+	
+	Eclipse + GitHub 연동 테스트
 </div>
 </form>
 </body>
