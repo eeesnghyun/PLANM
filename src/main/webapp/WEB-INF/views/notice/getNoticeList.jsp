@@ -52,7 +52,7 @@ function fnct_GetNoticeList(nowPage) {
 	   		pagingHtml += "	<a class='page-link' href='javascript:fnct_GetNoticeList(" + endPage + ");'>다음</a>";
 			pagingHtml += "</li>";
 	   	}
-	   	      	       	         	 
+	   	
 	   	$("#noticeList").append(noticeHtml);
 	   	$("#paging").append(pagingHtml);
 	}	

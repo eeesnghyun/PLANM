@@ -26,6 +26,7 @@
 	    <url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
+	<!-- POST 한글깨짐 방지(Spring Security 사용시 springSecurityFilterChain 앞에 위치해야한다) -->
 	<filter>
 	     <filter-name>encodingFilter</filter-name>
 	     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>

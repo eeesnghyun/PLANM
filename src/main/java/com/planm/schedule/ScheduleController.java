@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,8 +27,15 @@ import com.planm.schedule.vo.ScheduleVO;
 @Controller
 public class ScheduleController {
 	
+	private static final Logger logger = LoggerFactory.getLogger(ScheduleController.class);
+	
 	@Autowired
 	private ScheduleService scheduleService;
+	
+	@RequestMapping(value = "/schedule/test.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public String scheduleTest(Locale locale, Model model) {								
+		return "/schedule/test";
+	}
 	
 	@RequestMapping(value = "/schedule/main.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String schedulePage(Locale locale, Model model) {								

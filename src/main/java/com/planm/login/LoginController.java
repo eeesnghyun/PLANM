@@ -37,7 +37,31 @@ public class LoginController {
 	LoginService loginService;
 	
 	@RequestMapping(value = "/login/test.do", method = RequestMethod.GET)
-	public String test(Locale locale, Model model) {								 
+	public String test(HttpServletRequest request, Locale locale, Model model) {
+		String browser 	 = "";
+		String userAgent = request.getHeader("User-Agent");		
+		
+		if(userAgent.indexOf("Trident") > -1) {												// IE
+			browser = "ie";
+		} else if(userAgent.indexOf("Edge") > -1) {											// Edge
+			browser = "edge";
+		} else if(userAgent.indexOf("Whale") > -1) { 										// Naver Whale
+			browser = "whale";
+		} else if(userAgent.indexOf("Opera") > -1 || userAgent.indexOf("OPR") > -1) { 		// Opera
+			browser = "opera";
+		} else if(userAgent.indexOf("Firefox") > -1) { 										 // Firefox
+			browser = "firefox";
+		} else if(userAgent.indexOf("Safari") > -1 && userAgent.indexOf("Chrome") == -1 ) {	 // Safari
+			browser = "safari";		
+		} else if(userAgent.indexOf("Chrome") > -1) {										 // Chrome	
+			browser = "chrome";
+		}
+		
+		logger.info("---------------------------------------------");
+		logger.info("User-Agent : " + userAgent);
+		logger.info("Browser : " + browser);
+		logger.info("---------------------------------------------");
+		
 		return "/login/test";
 	}
 	

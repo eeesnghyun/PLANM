@@ -91,7 +91,7 @@
 		     	   ELSE 'O'
 		       END READDATE
 		 	</otherwise>		   	
-		 </choose>
+		 </choose> 		 	
 		  FROM PM_MAIL A		 
 		 WHERE A.CMPCD = #{cmpcd}	
 		   AND A.USERCD  = #{usercd}			   

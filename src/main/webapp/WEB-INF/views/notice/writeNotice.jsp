@@ -16,7 +16,7 @@ $(document).ready(function() {
 	);	
 
 	/* 업로드 파일 설정 */
-	fnct_MultiFile("noticeFile", 1);
+	fnct_MultiFile("noticeFile", "file", 1);
 });
 </script>
 <form:form id="frm" action="/notice/writeNotice.ajax" method="POST" enctype="multipart/form-data"> 

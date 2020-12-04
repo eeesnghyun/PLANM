@@ -4,9 +4,16 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+						https://www.springframework.org/schema/mvc/spring-mvc.xsd
+						http://www.springframework.org/schema/beans 
+						https://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context 
+						https://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/task 
+		        		http://www.springframework.org/schema/task/spring-task-3.0.xsd
+						">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -22,7 +29,22 @@
 	</context:component-scan>	 -->
 	<context:component-scan base-package="com" />	
 
+	<task:annotation-driven />
 
+	<!-- 	
+	스케쥴링
+	pool-size : Thread 생성 개수
+				Scheduled 작업은 스프링에 의해 한 개의 Thread Pool에서 실행됨
+	cron : 실행식을 cron 표현식으로 설정
+		   1)cron="0 0 8 * * *" : 매일 8시 실행
+		   2)cron="* 2 * * * *" : 2분마다 실행
+	-->	
+	<task:scheduler id="scheduler" pool-size="1" />	
+	<task:scheduled-tasks scheduler="scheduler">
+    	<task:scheduled ref="testSchedule" method="TestScheduler" cron="0 0 8 * * *"></task:scheduled>
+	</task:scheduled-tasks>
+	<beans:bean id="testSchedule" class="com.planm.util.Scheduler" />	
+ 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
@@ -46,8 +68,7 @@
 	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver" id="viewResolver" p:order="0"/>
 	<beans:bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" id="jsonView">
 	    <beans:property name="contentType" value="application/json;charset=UTF-8"/>
-	</beans:bean>
-		
+	</beans:bean>		
 	
 	<!-- 타일즈 -->
 	<beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">

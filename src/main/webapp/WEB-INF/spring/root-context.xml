@@ -23,16 +23,11 @@
 		<property name="password" value="0591" />	
 	</bean>
 		
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<!-- <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> -->
+	<bean id="sqlSessionFactory" class="com.planm.util.RefreshableSqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation" value="classpath:/mybatis-config.xml" />
-		<property name="mapperLocations" value="classpath:/mapper/**/*.xml"></property>
-		<!-- <property name="mapperLocations">
-			<array>
-				<value>classpath:/mapper/login/login_Mapper.xml</value>
-				<value>classpath:/mapper/schedule/schedule_Mapper.xml</value>
-			</array>	
-		</property>	 -->	 
+		<property name="mapperLocations" value="classpath:/mapper/**/*.xml" /> 
 	</bean>	
 	
 	<!-- MyBatis - Spring 연동 모듈 -->

@@ -137,16 +137,24 @@ function fnct_ReturnRmvStr(str, str2){
  * - id : input file 태크 아이디
  * - cnt : file 업로드 갯수 
  */
-function fnct_MultiFile(id, cnt) {
+function fnct_MultiFile(id, gubun ,cnt) {
 	var fileId = "#" + id; 
 	var fileList = fileId + "-list";
+	var fileType = "";
 	var maxfile = 1;
+	
 	if(cnt != null || cnt != "") maxfile = cnt;
 
+	if(gubun == "img") {
+		fileType = "jpg|png|gif";
+	} else if(gubun == "file") {
+		fileType = "jpg|png|gif|pdf";
+	}
+	
     $(fileId).MultiFile({        
         max: maxfile			 // 업로드 할 수 있는 최대 파일 갯수
       , list: fileList			 // 파일 리스트
-      , accept: "jpg|png|gif" 	 // 파일 확장자 지정
+      , accept: fileType	 	 // 업로드 파일 확장자 지정
       //, maxfile: 1024			 // 각 파일 최대 업로드 크기
       , max_size: 500  			 // 전체 파일 최대 업로드 크기(500KByte)
       // alet 커스터마이징

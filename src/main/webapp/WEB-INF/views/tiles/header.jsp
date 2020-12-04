@@ -104,7 +104,7 @@ function fnct_RecordCommute(flag) {
 $(document).ready(function() {
 	
 	/* 업로드 파일 설정 */
-	fnct_MultiFile("userImgfile", 1);
+	fnct_MultiFile("userImgfile", "img", 1);
 	
 	/* 이미지 등록시 체크 */
 	$("#frm_header2").submit(function() {		
