@@ -191,12 +191,12 @@ $(document).ready(function() {
 
 
 <script src="/resources/calendar/js/moment.min.js"></script>
-<script src="/resources/calendar/js/fullcalendar.min.js"></script>
+<script src="/resources/calendar/js/fullcalendar.min.js" ></script>
 <script src="/resources/calendar/js/ko.js"></script>
 <script src="/resources/calendar/js/select2.min.js"></script>
 <script src="/resources/calendar/js/bootstrap.min.js"></script>
 
-<script src="/resources/calendar/js/main.js"></script>
+<script src="/resources/calendar/js/main.js" charset="UTF-8"></script>
 <script src="/resources/calendar/js/addEvent.js"></script>
 <script src="/resources/calendar/js/editEvent.js"></script>
 <script src="/resources/calendar/js/etcSetting.js"></script>
