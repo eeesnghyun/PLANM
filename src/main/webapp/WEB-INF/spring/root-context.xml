@@ -17,7 +17,7 @@
 		http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 	
 	<context:property-placeholder location="/config/config.properties" />
-	
+
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">		
 		<property name="driverClassName" value="${spring.datasource.driverClassname}" />		
 		<property name="url" value="${spring.datasource.url}" />		
