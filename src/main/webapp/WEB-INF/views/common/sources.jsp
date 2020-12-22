@@ -14,6 +14,10 @@
 
 <!-- JSTL -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<jsp:useBean id="today" class="java.util.Date" />
+<fmt:formatDate value="${today}" pattern="yyyyMMddhhmm" var="updateTime" />
 
 <!-- jQuery UI -->
 <script src="/resources/jquery-ui/jquery-ui.js" type="text/javascript"></script>  
@@ -24,10 +28,12 @@
 <link href="/resources/bootstrap/bootstrap.css"  rel="stylesheet">   
 
 <!-- 공통 CSS -->
-<link href="/include/common.css"  rel="stylesheet">
+<!-- <link href="/include/common.css"  rel="stylesheet"> -->
+<link href='<c:url value="/include/common.css"><c:param name="date" value="${updateTime}"/></c:url>' rel="stylesheet" type="text/css" />
 
 <!-- 공통 JS -->
-<script type="text/javascript" src="/include/common.js" type="text/javascript"></script>
+<!-- <script type="text/javascript" src="/include/common.js" type="text/javascript"></script> -->
+<script type="text/javascript" src='<c:url value="/include/common.js"><c:param name="date" value="${updateTime}"/></c:url>"/>'></script>
 
 <!-- Moment.js 날짜,시간 관련 -->
 <script src="/resources/calendar/js/moment.min.js" type="text/javascript"></script>

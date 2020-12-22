@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<meta charset="UTF-8">
 <!-- jQuery 최신 버전 -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 
@@ -196,7 +196,7 @@ $(document).ready(function() {
 <script src="/resources/calendar/js/select2.min.js"></script>
 <script src="/resources/calendar/js/bootstrap.min.js"></script>
 
-<script src="/resources/calendar/js/main.js" charset="UTF-8"></script>
+<script src="/resources/calendar/js/main.js"></script>
 <script src="/resources/calendar/js/addEvent.js"></script>
 <script src="/resources/calendar/js/editEvent.js"></script>
 <script src="/resources/calendar/js/etcSetting.js"></script>
