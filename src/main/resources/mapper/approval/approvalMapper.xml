@@ -2,15 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="approval">
-	
+
 	<select id="getDocList" resultType="LowerKeyMap" parameterType="hashMap">
-		SELECT 
+		SELECT
 			   B.DOCNO
 			 , B.SEQ
 			 , A.DOCTYPE
 			 , (SELECT DOCNAME FROM PM_RULE_DOC WHERE CMPCD=A.CMPCD AND DOCTYPE=A.DOCTYPE) DOCNAME
 			 , B.CMPCD
-			 , B.USERCD			 
+			 , B.USERCD
 			 , (SELECT USERNAME FROM PM_USER WHERE CMPCD=B.CMPCD AND USERCD=B.USERCD) USERNAME
 			 , STR_TO_DATE(A.REQUESTYMD, '%Y%m%d') REQUESTYMD
 			 , CASE WHEN B.DOCSTATUS = 'W' THEN '결재대기'
@@ -19,32 +19,32 @@
 			   END DOCSTATUS
 			 , IFNULL(STR_TO_DATE(B.SIGNYMD, '%Y%m%d'), '-') SIGNYMD
 		  FROM PM_DOC_REQUEST A
-		     , PM_DOC_SIGN B		    
+		     , PM_DOC_SIGN B
 		 WHERE A.DOCNO = B.DOCNO
-		   AND A.CMPCD = B.CMPCD	
-		   AND A.CMPCD = #{cmpcd}	   
+		   AND A.CMPCD = B.CMPCD
+		   AND A.CMPCD = #{cmpcd}
 		   <choose>
-				<when test="docGubun == 'SIGNDOC'">	<!-- 결재문서일 경우 결재자로 사번  -->										 
+				<when test="docGubun == 'SIGNDOC'">	<!-- 결재문서일 경우 결재자로 사번  -->
 		   			 AND B.SIGNUSER = #{usercd}
 				</when>
 				<when test="docGubun == 'ALL'">		<!-- 문서현황일 경우 결재자,신청자로 사번 -->
 					 AND (A.USERCD = #{usercd} OR B.SIGNUSER = #{usercd})
 				</when>
-				<otherwise>							<!-- 내문서, 문서현황일 경우 신청자로 사번 -->					
+				<otherwise>							<!-- 내문서, 문서현황일 경우 신청자로 사번 -->
 		   			 AND A.USERCD = #{usercd}
 				</otherwise>
 		   </choose>
 
 		   <choose>
 				<when test="docStatus != 'ALL'">
-		   		 AND B.DOCSTATUS = #{docStatus}		
+		   		 AND B.DOCSTATUS = #{docStatus}
 		   		</when>
-		   </choose>		   
-		   AND A.REQUESTYMD BETWEEN #{startDay} AND #{endDay}
+		   </choose>
+		   AND A.REQUESTYMD BETWEEN REPLACE(#{startDay},'-','') AND REPLACE(#{endDay},'-','')
 	</select>
 
 	<select id="getLeaveCnt" resultType="LowerKeyMap" parameterType="hashMap">
-		SELECT 
+		SELECT
 			   CMPCD
 			 , USERCD
 			 , CREATEDAY
@@ -57,21 +57,21 @@
 
 	<select id="getApprovalUser" resultType="LowerKeyMap" parameterType="hashMap">
 	<![CDATA[
-		SELECT 
+		SELECT
 			   USERCD
 			 , USERNAME
 		  FROM PM_USER
-		 WHERE CMPCD = #{cmpcd}		
+		 WHERE CMPCD = #{cmpcd}
 		   AND USERCD <> #{usercd}
-	]]>   
+	]]>
 	</select>
-	
+
 	<select id="getDocno" resultType="String">
 		SELECT CONCAT(DATE_FORMAT(NOW(),'%Y%m%d'),LPAD(COUNT(DOCNO)+1,5,'0')) AS DOCNO
 		  FROM PM_DOC_REQUEST
-		 WHERE CMPCD = #{cmpcd} 
+		 WHERE CMPCD = #{cmpcd}
 	</select>
-	
+
 	<insert id="addDoc" parameterType="approvalVO">
 		INSERT INTO PM_DOC_REQUEST(
 			  DOCNO
@@ -81,8 +81,8 @@
 			, REQUESTYMD
 			, DOCSTATUS
 			, SIGNLINE
-			, SIGNYMD			
-		)		
+			, SIGNYMD
+		)
 		VALUES(
 			  #{docno}
 			, #{doctype}
@@ -92,9 +92,9 @@
 			, 'W'
 			, #{signline}
 			, NULL
-		)		
+		)
 	</insert>
-	
+
 	<insert id="addDocLeave" parameterType="hashMap">
 		INSERT INTO PM_DOC_REQUEST_LEAVE(
 			  DOCNO
@@ -105,8 +105,8 @@
 			, STARTDAY
 			, ENDDAY
 			, VACDAY
-			, REMARK			
-		)		
+			, REMARK
+		)
 		VALUES(
 			  #{docno}
 			, #{cmpcd}
@@ -117,27 +117,27 @@
 			, #{endDay}
 			, #{vacDay}
 			, #{remark}
-		)		
+		)
 	</insert>
-	
+
 	<update id="editUserLeave" parameterType="hashMap">
 	   UPDATE PM_LEAVE
 		  SET USEDAY = #{vacDay}
 		    , REMAINDAY =  REMAINDAY - #{vacDay}
 		WHERE CMPCD  = #{cmpcd}
-		  AND USERCD = #{usercd}	
+		  AND USERCD = #{usercd}
 	</update>
-	
+
 	<insert id="addDocSign" parameterType="approvalVO">
 		INSERT INTO PM_DOC_SIGN(
 			  DOCNO
-			, SEQ	
-			, CMPCD		
+			, SEQ
+			, CMPCD
 			, USERCD
 			, SIGNUSER
 			, SIGNYMD
-			, DOCSTATUS			
-		)		
+			, DOCSTATUS
+		)
 		VALUES(
 			  #{docno}
 			, #{seq}
@@ -145,12 +145,12 @@
 			, #{usercd}
 			, #{signuser}
 			, NULL
-			, 'W'			
-		)		
+			, 'W'
+		)
 	</insert>
-	
+
 	<select id="getDocLeave" resultType="LowerKeyMap" parameterType="approvalVO">
-		SELECT 
+		SELECT
 			   A.CMPCD
 			 , A.SIGNLINE
 			 , A.USERCD
@@ -169,13 +169,13 @@
 		     , PM_DOC_REQUEST_LEAVE B
 		 WHERE A.DOCNO = B.DOCNO
 		   AND A.CMPCD = #{cmpcd}
-		   AND A.DOCNO = #{docno}		   
+		   AND A.DOCNO = #{docno}
 	</select>
-	
+
 	<select id="getSignLine" resultType="LowerKeyMap" parameterType="approvalVO">
-		SELECT 
+		SELECT
 			   A.SIGNUSER
-			 , (SELECT USERNAME FROM PM_USER WHERE CMPCD=A.CMPCD AND USERCD=A.SIGNUSER) USERNAME 
+			 , (SELECT USERNAME FROM PM_USER WHERE CMPCD=A.CMPCD AND USERCD=A.SIGNUSER) USERNAME
 			 , IFNULL(STR_TO_DATE(A.SIGNYMD, '%Y%m%d'), '-') SIGNYMD
 			 , CASE WHEN A.DOCSTATUS = 'W' THEN '결재대기'
 			        WHEN A.DOCSTATUS = 'R' THEN '반려'
@@ -185,18 +185,18 @@
 		WHERE A.DOCNO = #{docno}
 		  AND A.CMPCD = #{cmpcd}
 	</select>
-	
+
 	<update id="editDocSign" parameterType="approvalVO">
 	<![CDATA[
-		UPDATE PM_DOC_SIGN 
-		   SET SIGNYMD = DATE_FORMAT(NOW(),'%Y%m%d'), DOCSTATUS = #{docstatus}	 
+		UPDATE PM_DOC_SIGN
+		   SET SIGNYMD = DATE_FORMAT(NOW(),'%Y%m%d'), DOCSTATUS = #{docstatus}
 		 WHERE CMPCD = #{cmpcd}
 		   AND DOCNO = #{docno}
 		   AND SEQ <=
 		           (
 					 SELECT B.SEQ
 		          	   FROM (
-							SELECT 
+							SELECT
 							      A.SEQ
 							 FROM PM_DOC_SIGN A
 							WHERE A.DOCNO = #{docno}
@@ -206,7 +206,7 @@
 					)
 	 ]]>
 	</update>
-	
+
 	<select id="getDocSignYmd" resultType="String" parameterType="approvalVO">
 		SELECT IFNULL(SIGNYMD,'N') SIGNYMD
 		 FROM PM_DOC_SIGN
@@ -219,26 +219,26 @@
 		  			   AND A.CMPCD = #{cmpcd}
 		  				 )
 	</select>
-	
-	<update id="editDocRequest" parameterType="approvalVO">	
-		UPDATE PM_DOC_REQUEST 
-		   SET SIGNYMD = DATE_FORMAT(NOW(),'%Y%m%d'), DOCSTATUS = #{docstatus}, RETURNCAUSE = #{returncause}		       
+
+	<update id="editDocRequest" parameterType="approvalVO">
+		UPDATE PM_DOC_REQUEST
+		   SET SIGNYMD = DATE_FORMAT(NOW(),'%Y%m%d'), DOCSTATUS = #{docstatus}, RETURNCAUSE = #{returncause}
 		 WHERE DOCNO = #{docno}
-		   AND CMPCD = #{cmpcd} 	 
+		   AND CMPCD = #{cmpcd}
 	</update>
-	
+
 	<select id="getLeaveVacday" resultType="String" parameterType="approvalVO">
-		SELECT VACDAY 
+		SELECT VACDAY
 		 FROM PM_DOC_REQUEST_LEAVE
 		WHERE CMPCD = #{cmpcd}
 		  AND DOCNO = #{docno}
 	</select>
-	
+
 	<update id="returnUserLeave" parameterType="hashMap">
 		UPDATE PM_LEAVE
-		   SET USEDAY = USEDAY - #{vacday}, REMAINDAY = REMAINDAY + #{vacday} 		    
+		   SET USEDAY = USEDAY - #{vacday}, REMAINDAY = REMAINDAY + #{vacday}
 		 WHERE CMPCD  = #{cmpcd}
 		   AND USERCD = #{usercd}
 	</update>
-	
+
 </mapper>

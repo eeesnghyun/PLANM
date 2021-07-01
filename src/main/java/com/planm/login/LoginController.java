@@ -65,38 +65,10 @@ public class LoginController {
 		return "/login/test";
 	}
 	
-	@RequestMapping(value = "/login/testEnter.ajax", method = {RequestMethod.POST})
-	public ModelAndView testEnter(@RequestParam(value = "ipt-id") String id
-								, @RequestParam(value = "ipt-pass") String password
-								, HttpSession session) throws Exception {
-		ModelAndView mav = new ModelAndView();
-							
-		try {
-			System.out.println("id : " + id + "  / pass : " + password);
-				
-			if(id.equals("admin") && password.equals("1234")) {
-				mav.addObject("msg", "접속 성공");
-				mav.addObject("url", "/login/test.do");			
-				
-				String filePath = "P:\\upload\\NC\\5133202003231358370.png";
-				File file = new File(filePath);
-
-				return new ModelAndView("download", "downloadFile", file);
-			} else {
-				mav.addObject("msg", "계정 정보가 틀렸습니다.");
-				mav.addObject("url", "/login/test.do");
-				mav.setViewName("login/enter");	
-			}
-			 	
-		} catch (Exception e) {
-			e.printStackTrace();
-			mav.addObject("msg", "계정 정보가 틀렸습니다.");
-			mav.addObject("url", "/login/test.do");				
-		}
-		
-		return mav;
-	}
-	
+	@RequestMapping(value = "/login/test2.do", method = RequestMethod.GET)
+	public String test2(Locale locale, Model model) {								 
+		return "/login/test2";
+	}	
 	
 	@RequestMapping(value = "/login/pmLogin.do", method = RequestMethod.GET)
 	public String loginPage(Locale locale, Model model) {								 

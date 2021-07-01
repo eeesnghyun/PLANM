@@ -5,8 +5,8 @@
 <script>
 /*
  * (Modal)header.jsp에 위치
- *  Modal창이 가려지는 현상 때문에 header에 위치(userImg, userPassword) 
- */ 
+ *  Modal창이 가려지는 현상 때문에 header에 위치(userImg, userPassword)
+ */
 function fcnt_SaveUserImg() {
 	$("#userImgfile").MultiFile("reset");	// 파일 초기화
 	$("#userImg").modal("show");
@@ -18,25 +18,12 @@ function fnct_UserPassword() {
 }
 
 function fcnt_DeleteUserImg() {
-	swal({
-	    title: "안내",
-	    text : "이미지를 삭제하시겠습니까?",
-	    icon : "info",
-	    buttons: ["NO", "YES"]
-	}).then((YES) => {
-	    if (YES) {
-	    	var params = {};	    	
-	    	var data = fnct_CallPostAjax("/login/deleteUserImg.ajax", params);		
-	    	if(data.status == "success") {
-	    		swal("안내", "이미지가 삭제되었습니다.", "success");	    		
-	    	}
-	    }
-	});
+
 }
 
 $(document).ready(function() {
-	var img = "${loginVO.userimg }";	
-	
+	var img = "${loginVO.userimg }";
+
 	if(img == "userimg.png") {		// 기본 이미지일 때
 		$("#deleteImgBtn").attr("disabled", true);
 	}
@@ -46,26 +33,26 @@ $(document).ready(function() {
 <div class="card border-theme">
 	<div class="card-header">
     	<div class="float-left">
-    		개인정보	    		
+    		개인정보
     	</div>
     	<div class="float-right">
-    		<button type="button" class="btn-img" onclick="fnct_CloseLayer('userInfo')"><img src="/images/close.png" class="w10-h10"></button>
+    		<button type="button" class="btn-img" onclick="commonCloseLayer('userInfo')"><img src="/images/close.png" class="w10-h10"></button>
     	</div>
   	</div>
   	<div class="card-body" id="card-content" style="height: 445px; overflow: auto">
   		<div class="container-fluid border-bottom">
-	  		<div class="row">	
-				<div class="col-12 text-center mb-2">				
+	  		<div class="row">
+				<div class="col-12 text-center mb-2">
 					<img src="/mfile/user/<c:out value="${loginVO.userimg }" />" class="w128-h128">
 					<hr>
-				</div>	
+				</div>
 				<div class="col-12 text-center mb-2">
 					<button type="button" class="btn btn-outline-secondary" id="saveImgBtn" onclick="fcnt_SaveUserImg()">등록</button>
-					<button type="button" class="btn btn-outline-secondary" id="deleteImgBtn" onclick="fcnt_DeleteUserImg()">삭제</button>					
-				</div>	
+					<button type="button" class="btn btn-outline-secondary" id="deleteImgBtn" onclick="fcnt_DeleteUserImg()">삭제</button>
+				</div>
 			</div>
-			
-			<div class="row mt-2">	
+
+			<div class="row mt-2">
 				<div class="col-12">
 					<table class="table">
 						<colgroup>
@@ -97,26 +84,26 @@ $(document).ready(function() {
 							<td><c:out value="${loginVO.cmpname }" /></td>
 							<th class="th-basic">회사전화번호</th>
 							<td><c:out value="${loginVO.cmptel }" /></td>
-			
+
 						</tr>
 						<tr>
 							<th class="th-basic">부서</th>
-							<td colspan="3"></td>								
+							<td colspan="3"></td>
 						</tr>
 						<tr>
 							<th class="th-basic">직위</th>
 							<td></td>
 							<th class="th-basic">직책</th>
 							<td></td>
-						</tr>		
+						</tr>
 						<tr class="border-bottom">
 							<th class="th-basic">회사주소</th>
-							<td colspan="3"><c:out value="${loginVO.cmpaddr }" /></td>								
-						</tr>																	
-					</table>					
+							<td colspan="3"><c:out value="${loginVO.cmpaddr }" /></td>
+						</tr>
+					</table>
 				</div>
-			</div>		
+			</div>
   		</div>
-  	</div>		
+  	</div>
 </div>
 

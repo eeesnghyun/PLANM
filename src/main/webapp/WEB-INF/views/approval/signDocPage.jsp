@@ -12,8 +12,8 @@ function fnct_GetLeaveDoc() {
 	var params = {
 			"docNo" : docno
 	};
-	
-	var data = fnct_CallPostAjax("/approval/getDocLeave.ajax", params);		
+
+	var data = commonCallAjax("/approval/getDocLeave.ajax", params);
 	if(data.status == "success") {
 		var result = data.result;
 		var resultList = data.resultList;
@@ -28,30 +28,30 @@ function fnct_GetLeaveDoc() {
 		$("#startDayS").val(result.startday);
 		$("#endDayS").val(result.endday);
 		$("#remarkS").html(result.remark);
-		$("#username").text(result.username);		
+		$("#username").text(result.username);
 		$("#usercd").text(result.usercd);
 		$("#returnCause").html(result.returncause);
-		
-		for(var i = 0; i < resultList.length; i++) {	
+
+		for(var i = 0; i < resultList.length; i++) {
 			if(resultList[i].signuser == "${loginVO.usercd }") {
-				signHtml += "<li class='list-group-item' style='background-color: #ff6f61'><img src='/images/down.png' class='w18-h18 mr-2'>"	
+				signHtml += "<li class='list-group-item' style='background-color: #ff6f61'><img src='/images/down.png' class='w18-h18 mr-2'>"
 			} else {
 				signHtml += "<li class='list-group-item'><img src='/images/down.png' class='w18-h18 mr-2'>"
-			}			
+			}
 			signHtml += resultList[i].username + "<span class='badge badge-primary badge-pill mr-2'>(" + resultList[i].signuser + ")</span>";
 			signHtml += resultList[i].docstatus + "<span class='badge badge-primary badge-pill'>(" + resultList[i].signymd + ")</span>";
-			signHtml += "</li>"; 					
-		}		
-		
+			signHtml += "</li>";
+		}
+
 		/* 최종 결재가 된 문서 */
 		if(resultList[resultList.length-1].signymd != "-") {
 			$("#btnSign").attr("disabled", true);
 			$("#btnReturn").attr("disabled", true);
 		}
-		
-		$("#signLineS").append(signHtml);	
+
+		$("#signLineS").append(signHtml);
 	}
-		
+
 }
 
 /*
@@ -60,32 +60,31 @@ function fnct_GetLeaveDoc() {
 function fnct_SignDoc(docStatus) {
 	if(docStatus == "R") {
 		$("#returnCause").attr("disabled", false);
-		
+
 		if($("#returnCause").val() == "") {
 			alert("반려사유를 입력해주세요.");
 			return;
 		}
-	}	
+	}
 
 	var params = {
 			"usercd": $("#usercd").text(),
-			"docNo" : $("#docnoS").val(),			
+			"docNo" : $("#docnoS").val(),
 			"docType" : $("#docTypeS").val(),
 			"docStatus" : docStatus,
-			"returnCause" : $("#returnCause").val()		
+			"returnCause" : $("#returnCause").val()
 	};
-	
-	var data = fnct_CallPostAjax("/approval/editDocSign.ajax", params);		
+
+	var data = commonCallAjax("/approval/editDocSign.ajax", params);
 	if(data.status == "success") {
 		alert("결재되었습니다.");
-		fnct_CloseLayer('signLayer');
+		commonCloseLayer('signLayer');
 	}
 }
 
 $(document).ready(function() {
 	fnct_GetLeaveDoc();
 });
-
 </script>
 <c:if test="${docGubun eq 'SIGNDOC'}">
 <div class="container-fluid mb-2">
@@ -94,7 +93,7 @@ $(document).ready(function() {
 			<button type="button" class="btn btn-outline-secondary" id="btnSign" onclick="fnct_SignDoc('S')">결 재</button>
 			<button type="button" class="btn btn-outline-secondary" id="btnReturn" onclick="fnct_SignDoc('R')">반 려</button>
 		</div>
-	</div>	
+	</div>
 </div>
 </c:if>
 
@@ -105,7 +104,7 @@ $(document).ready(function() {
 			<div class="form-group">
 			    <label for="returnCause">반려사유</label>
 				<textarea class="form-control" id="returnCause" disabled="disabled"></textarea>
-			</div>			
+			</div>
 		</div>
 	</div>
     <table class="table table-hover">
@@ -130,8 +129,8 @@ $(document).ready(function() {
 					<option value="S">결재완료</option>
 					<option value="R">반려</option>
 				</select>
-	    	</td>	    	
-	    </tr>	
+	    	</td>
+	    </tr>
 		<tr>
 	    	<th class="th-basic">신청일</th>
 	    	<td><input type="text" class="form-control w100" id="requestYmdS" disabled="disabled"></td>
@@ -152,24 +151,24 @@ $(document).ready(function() {
 					<option value="am">오전반차</option>
 					<option value="pm">오후반차</option>
 				</select>
-	    	</td>	      		    
-	    </tr>	    
+	    	</td>
+	    </tr>
 	    <tr>
 	    	<th class="th-basic">기간</th>
 	    	<td colspan="5">
 	    		<div class="form-inline">
 	    			<input class="form-control w100" type="text" name="startDayS" id="startDayS" disabled="disabled"> ~
-	    			<input class="form-control w100" type="text" name="endDayS" id="endDayS" disabled="disabled">	    		
+	    			<input class="form-control w100" type="text" name="endDayS" id="endDayS" disabled="disabled">
 	    		</div>
 	    	</td>
 	    </tr>
 	    <tr>
 	    	<th class="th-basic">휴가사유</th>
-	    	<td colspan="5"><textarea class="form-control" id="remarkS" disabled="disabled"></textarea></td>	      	
+	    	<td colspan="5"><textarea class="form-control" id="remarkS" disabled="disabled"></textarea></td>
 	    </tr>
 	    <tr class="border-top border-bottom">
-			<th colspan="6">결재선 (*결재시, 본인의 결재선까지 자동 결재됩니다.)</th>			
-		</tr>			
+			<th colspan="6">결재선 (*결재시, 본인의 결재선까지 자동 결재됩니다.)</th>
+		</tr>
 	</table>
-	<ul class="list-group list-group-flush" id="signLineS"></ul>	
+	<ul class="list-group list-group-flush" id="signLineS"></ul>
 </div>

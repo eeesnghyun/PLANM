@@ -3,26 +3,26 @@
 <%@ include file="/WEB-INF/views/common/sources.jsp" %>
 
 <script>
-function fnct_GetNoticeList(nowPage) {	
+function fnct_GetNoticeList(nowPage) {
 	if(nowPage == "" || nowPage == undefined) {
 		nowPage = 1;
 	}
-	
+
 	var params = {
 			"nowPage"    : nowPage
 	};
-	
-	var data = fnct_CallPostAjax("/notice/getNoticeList.ajax", params);
-	
+
+	var data = commonCallAjax("/notice/getNoticeList.ajax", params);
+
 	if(data.status == "success") {
-		var resultList = data.resultList;        	 
+		var resultList = data.resultList;
 	   	var noticeHtml = "";
 	   	var pagingHtml = "";
 	   	var startPage  = data.paging.startPage;
-	   	var endPage    = data.paging.endPage;        	 
+	   	var endPage    = data.paging.endPage;
 	   	$("#noticeList").empty();
 	   	$("#paging").empty();
-	   	
+
 	   	for(var i = 0; i < resultList.length; i++){
 	   	 	noticeHtml += "<div class='row mt-2 pb-1' id='mailList'>";
 	   	 	noticeHtml += "  <div class='col-2 text-center'>" + resultList[i].noticeno + "</div>";
@@ -31,7 +31,7 @@ function fnct_GetNoticeList(nowPage) {
 	   		noticeHtml += "	 <div class='col-2 text-center'>" + resultList[i].noticedate + "</div>";
 	   		noticeHtml += "</div>";
 	    }
-	   	
+
 	   	// 페이징 처리
 	   	if(data.paging.prev) {
 	   		startPage = startPage - 1;
@@ -39,36 +39,36 @@ function fnct_GetNoticeList(nowPage) {
 		   	pagingHtml += "	<a class='page-link' href='javascript:fnct_GetNoticeList(" + startPage + ");' tabindex='-1' aria-disabled='true'>이전</a>";
 		   	pagingHtml += "</li>";
 	   	}
-	   	
-	   	for(var i = startPage; i < endPage; i++){            	
-	   		pagingHtml += "<li class='page-item'>";    
+
+	   	for(var i = startPage; i < endPage; i++){
+	   		pagingHtml += "<li class='page-item'>";
 	   		pagingHtml += "	<a class='page-link' href='javascript:fnct_GetNoticeList(" + i + ");'>" + i + "</a>";
 	   		pagingHtml += "</li>";
 	   	}
-	   	 
+
 	   	if(data.paging.next && endPage > 0) {
 	   		endPage = endPage + 1;
 	   		pagingHtml += "<li class='page-item'>";
 	   		pagingHtml += "	<a class='page-link' href='javascript:fnct_GetNoticeList(" + endPage + ");'>다음</a>";
 			pagingHtml += "</li>";
 	   	}
-	   	
+
 	   	$("#noticeList").append(noticeHtml);
 	   	$("#paging").append(pagingHtml);
-	}	
+	}
 }
 
 
-$(document).ready(function() {		
+$(document).ready(function() {
 	fnct_GetNoticeList(1);
 });
 </script>
 <div class="container-fluid">
-	<div class="row text-center">		
+	<div class="row text-center">
 		<div class="col-2"><h6><strong>No</strong></h6></div>
 		<div class="col-6"><h6><strong>제목</strong></h6></div>
 		<div class="col-2"><h6><strong>작성자</strong></h6></div>
-		<div class="col-2"><h6><strong>작성날짜</strong></h6></div>			
+		<div class="col-2"><h6><strong>작성날짜</strong></h6></div>
 	</div>
 	<div class="row">
 		<div class="col-12">

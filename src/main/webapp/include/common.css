@@ -2,9 +2,9 @@
 /**
  * Author  : LSH
  * Content : 공통으로 사용하는 CSS 설정
- * Ver 1.0 
+ * Ver 1.0
  */
- 
+
 /* 공통으로 사용할 폰트 설정  */
 @font-face {
 	font-family:	'Spoqa Han Sans';
@@ -20,8 +20,8 @@ body, button, div, input, select, table, textarea {
   outline: none
 }
 
-#content {	
-	min-width: 800px;	
+#content {
+	min-width: 800px;
 	overflow: auto;
 }
 
@@ -32,14 +32,14 @@ body, button, div, input, select, table, textarea {
 	overflow: auto;
 	-webkit-box-shadow: 15px -10px 40px -25px rgba(50,50,50,0.19);
 	-moz-box-shadow: 15px -10px 40px -25px rgba(50,50,50,0.19);
-	box-shadow: 15px -10px 40px -25px rgba(50,50,50,0.19);	
+	box-shadow: 15px -10px 40px -25px rgba(50,50,50,0.19);
 }
 
 #body {
 	width: 100%;
 	height: 100%;
 	/* padding-top: 10px; */
-	overflow: auto;	
+	overflow: auto;
 }
 
 .footer {
@@ -95,7 +95,6 @@ body, button, div, input, select, table, textarea {
 	width: 80% !important;
 }
 
-
 .thumb-logo {
 	width: 64px;
 	height: 32px;
@@ -123,49 +122,48 @@ body, button, div, input, select, table, textarea {
 .bg-theme1 {
 	background-color: #32324e;
     color: #fff;
-    text-align: center; 
+    text-align: center;
 }
 
 .bg-theme2 {
 	background-color: #FF6F61;
     color: #fff;
-    text-align: center; 
+    text-align: center;
 }
 
 .bg-theme3 {
-	background-image: linear-gradient(to bottom, #fff, #e0e0eb);    
-    text-align: center; 
+	background-image: linear-gradient(to bottom, #fff, #e0e0eb);
+    text-align: center;
     color: #212529;
 }
 
 /* 테이블 CSS */
 .th-basic {
 	background-color: #efeff5;
-	text-align: right;
 }
 
 /* 레이어 팝업 CSS */
 .layer-mail {
 	position: absolute;
 	z-index: 9;
-	top: 50; 
-	left: 50; 
+	top: 50;
+	left: 50;
 	display: none;
 }
 
 .layer-doc {
 	position: absolute;
 	z-index: 9;
-	top: 50; 
-	left: 50; 
+	top: 50;
+	left: 50;
 	display: none;
 }
 
 .layer-sign {
 	position: absolute;
 	z-index: 9;
-	top: 50; 
-	left: 50; 
+	top: 50;
+	left: 50;
 	display: none;
 }
 
@@ -178,7 +176,7 @@ body, button, div, input, select, table, textarea {
     background-color: #e0e0eb;
     border-radius: 10px;
 }
-    
+
 /* 버튼 안에 이미지를 넣는 경우 사용 */
 .btn-img {
   display: inline-block;

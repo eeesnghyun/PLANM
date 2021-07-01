@@ -15,7 +15,7 @@ import org.springframework.web.servlet.view.AbstractView;
 public class FileDownload extends AbstractView {
   
 	public void Download(){     
-		setContentType("application/download; utf-8");         
+		setContentType("application/download; utf-8");
     }
  
     @Override
@@ -29,10 +29,7 @@ public class FileDownload extends AbstractView {
 	 	logger.info("File Path : " + file.getPath());
 	 	logger.info("File Name : " + file.getName());
 	 	logger.info("----------------------- FILE DOWNLOAD END -----------------------------");
-	 	
-        response.setContentType(getContentType());
-        response.setContentLength((int)file.length());
-         
+	 	        
         String fileName = null;	// 저장될 파일 이름
         
         // 파일 인코딩
@@ -42,6 +39,8 @@ public class FileDownload extends AbstractView {
             fileName = new String(file.getName().getBytes("UTF-8"), "8859_1");
         }        
 	 	
+        response.setContentType(getContentType());
+        response.setContentLength((int)file.length());
         response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
         response.setHeader("Content-Transfer-Encoding", "binary");
       

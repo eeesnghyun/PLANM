@@ -5,7 +5,7 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 <!-- jQuery UI -->
-<script src="/resources/jquery-ui/jquery-ui.js"></script>  
+<script src="/resources/jquery-ui/jquery-ui.js"></script>
 <link rel="stylesheet" href="/resources/jquery-ui/jquery-ui.css">
 
 <!-- Common JS -->
@@ -21,35 +21,35 @@
 <link rel="stylesheet" href="/resources/calendar/css/main.css">
 <script>
 //하루종일 선택시 날짜 변환
-function fnct_Allday() {		
+function fnct_Allday() {
     if($("#allDayEvent").is(":checked")){
-    	
+
     	$("#start-h").val("00");
         $("#start-m").val("00");
         $("#end-h").val("00");
-        $("#end-m").val("00");	
-    }    		   
+        $("#end-m").val("00");
+    }
 }
 
 $(document).ready(function() {
-	
+
 });
 </script>
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 <div class="container-fluid">
-	
+
 	<!-- 스케줄 검색 레이어창 -->
 	<div class="panel panel-info" id="searchLayer" style="display: none">
         <div class="panel-heading">
         	<label for="calendar_view">일정구분</label>
-        	
+
         	<span style="float: right">
-        		<button type="button" class="btn-img" onclick="fnct_CloseLayer('searchLayer')"><img src="/images/close.png" class="w10-h10"></button>
+        		<button type="button" class="btn-img" onclick="commonCloseLayer('searchLayer')"><img src="/images/close.png" class="w10-h10"></button>
         	</span>
         </div>
 
         <div class="panel-body">
-            <div class="col-lg-12">                
+            <div class="col-lg-12">
                 <div class="input-group">
                     <select class="filter" id="type_filter" multiple="multiple">
                         <option value="카테고리1">카테고리1</option>
@@ -58,22 +58,22 @@ $(document).ready(function() {
                         <option value="카테고리4">카테고리4</option>
                     </select>
                 </div>
-            </div>              
-        </div>                
+            </div>
+        </div>
     </div>
     <!-- /.filter panel -->
-	
+
     <!-- 일자 클릭시 메뉴오픈 -->
-    <div id="contextMenu" class="dropdown clearfix">            
+    <div id="contextMenu" class="dropdown clearfix">
     	<button type="button" class="btn btn-primary" id="addSchedule">등록</button>
 	</div>
 
     <div id="wrapper">
         <div id="loading"></div>
-          
+
         <div>
-        	<ul class="nav nav-pills">        		        		
-        		<li>        			
+        	<ul class="nav nav-pills">
+        		<li>
         			<h4><strong><c:out value="${loginVO.username }" /></strong>님의 일정</h4>
         		</li>
         		<li>
@@ -81,9 +81,9 @@ $(document).ready(function() {
         				<img src="/images/search.png" class="w18-h18">
         			</button>
         		</li>
-        	</ul>          	          
+        	</ul>
         </div>
-        
+
         <div id="calendar"></div>
     </div>
 
@@ -92,7 +92,7 @@ $(document).ready(function() {
     <div class="modal fade" tabindex="-1" role="dialog" id="eventModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">                        
+                <div class="modal-header">
                  <h4 class="modal-title">일정 <span class="eventName"></span></h4>
                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
              </div>
@@ -102,44 +102,44 @@ $(document).ready(function() {
 						<colgroup>
 							<col width="20%" />
 							<col width="20%" />
-							<col width="10%" />								
 							<col width="10%" />
-							<col width="" />							
+							<col width="10%" />
+							<col width="" />
 						</colgroup>
 						<tbody>
 						<tr>
 							<th class="th-basic">일정명</th>
-							<td colspan="4">								
-								<input class="form-control" type="text" name="title" id="title" required="required">								
+							<td colspan="4">
+								<input class="form-control" type="text" name="title" id="title" required="required">
 							</td>
 						</tr>
 						<tr>
 							<th class="th-basic">시작일</th>
-							<td><input class="form-control" type="text" name="start-day" id="start-day" onclick="fnct_DatePicker('start-day')" onchange="fnct_Allday()" maxlength="10"></td>																																												
-							<td><input class="form-control" type="text" name="start-h" id="start-h" onchange="fnct_Allday()" maxlength="2"></td>								
+							<td><input class="form-control" type="text" name="start-day" id="start-day" onclick="fnct_DatePicker('start-day')" onchange="fnct_Allday()" maxlength="10"></td>
+							<td><input class="form-control" type="text" name="start-h" id="start-h" onchange="fnct_Allday()" maxlength="2"></td>
 							<td><input class="form-control" type="text" name="start-m" id="start-m" onchange="fnct_Allday()" maxlength="2"></td>
-							<td>	
-						    	<div>					    	
+							<td>
+						    	<div>
 						      		<div class="custom-control custom-checkbox">
 									  <input type="checkbox" class="custom-control-input" name="allDayEvent" id="allDayEvent" onclick="fnct_Allday()">
 									  <label class="custom-control-label" for="allDayEvent">하루종일<a title="체크시 하루 전체 일정으로 등록됩니다."><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a></label>
-									</div>					      							  
+									</div>
 						    	</div>
-							</td>							
+							</td>
 						</tr>
 						<tr>
 							<th class="th-basic">종료일</th>
-							<td><input class="form-control" type="text" name="end-day" id="end-day" onclick="fnct_DatePicker('end-day')" onchange="fnct_Allday()" maxlength="10"></td>								
-							<td><input class="form-control" type="text" name="end-h" id="end-h" onchange="fnct_Allday()" maxlength="2"></td>																					
-							<td><input class="form-control" type="text" name="end-m" id="end-m" onchange="fnct_Allday()" maxlength="2"></td>								
-							<td>	
-						    	<div>					    	
+							<td><input class="form-control" type="text" name="end-day" id="end-day" onclick="fnct_DatePicker('end-day')" onchange="fnct_Allday()" maxlength="10"></td>
+							<td><input class="form-control" type="text" name="end-h" id="end-h" onchange="fnct_Allday()" maxlength="2"></td>
+							<td><input class="form-control" type="text" name="end-m" id="end-m" onchange="fnct_Allday()" maxlength="2"></td>
+							<td>
+						    	<div>
 						      		<div class="custom-control custom-checkbox">
 									  <input type="checkbox" class="custom-control-input" name="everyMonth" id="everyMonth" onclick="fncEveryMonth()">
 									  <label class="custom-control-label" for="everyMonth">매달등록<a title="체크시 매월 일정으로 자동 등록됩니다."><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a></label>
-									</div>					      							  
+									</div>
 						    	</div>
-							</td>	
+							</td>
 						</tr>
 						<tr>
 							<th class="th-basic">구분</th>
@@ -151,7 +151,7 @@ $(document).ready(function() {
 	         	                    <option value="카테고리4">카테고리4</option>
 	             	            </select>
 							</td>
-						</tr>						
+						</tr>
 						<tr>
 							<th class="th-basic">색상</th>
 							<td colspan="4">
@@ -171,14 +171,14 @@ $(document).ready(function() {
 						<tr>
 							<th class="th-basic">내용</th>
 							<td colspan="4">
-								<textarea rows="4" cols="50" class="form-control" name="schContent" id="schContent" maxlength="500"></textarea>					      		
+								<textarea rows="4" cols="50" class="form-control" name="schContent" id="schContent" maxlength="500"></textarea>
 							</td>
 						</tr>
 						</tbody>
 					</table>
-					</div>						
+					</div>
                 </div>
-                <div class="modal-footer">                    
+                <div class="modal-footer">
                  <button type="button" class="btn btn-primary" id="saveEvent"   style="display: none;">저장</button>
                  <button type="button" class="btn btn-danger"  id="deleteEvent" style="display: none;">삭제</button>
                  <button type="button" class="btn btn-primary" id="updateEvent" style="display: none;">수정</button>

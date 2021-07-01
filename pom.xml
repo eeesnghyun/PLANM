@@ -7,28 +7,28 @@
 	<name>plan-manager</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
-	
+
 	<properties>
 		<!-- Java -->
 		<java-version>1.8</java-version>
-		
+
 		<!-- Web -->
 		<servlet.jsp-version>2.2.1</servlet.jsp-version>
 		<servlet-version>3.0.1</servlet-version>
 		<jstl-verision>1.2</jstl-verision>
-		
+
 		<!-- Spring -->
 		<org.springframework-version>4.3.14.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
-		
+
 		<!-- Tiles -->
 		<tiles-version>3.0.8</tiles-version>
-		
+
 		<!-- Logging -->
 		<org.slf4j-version>1.7.25</org.slf4j-version>
 	</properties>
-	
-	<dependencies>	
+
+	<dependencies>
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -47,55 +47,55 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
+
 		<!-- Spring DB Test : https://mvnrepository.com/artifact/org.springframework/spring-test -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
+
 		<!-- Spring JDBC -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 			<version>${org.springframework-version}</version>
-		</dependency> 
-		
+		</dependency>
+
 		<!-- DBCP2 -->
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-dbcp2</artifactId>
 		    <version>2.6.0</version>
-		</dependency>	
-		
+		</dependency>
+
 		<!-- MariaDB : https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
 		<dependency>
 		    <groupId>org.mariadb.jdbc</groupId>
 		    <artifactId>mariadb-java-client</artifactId>
 		    <version>2.3.0</version>
 		</dependency>
-		
+
 		<dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.6</version>
         </dependency>
-	
+
 		<!-- Mybatis -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
 			<version>3.4.6</version>
-		</dependency>	
+		</dependency>
 
-		<!-- Mybatis - Spring 연동 -->		
+		<!-- Mybatis - Spring 연동 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-spring</artifactId>
 			<version>1.3.2</version>
-		</dependency>		
-		
+		</dependency>
+
 		<!-- Spring Security -->
 		<!-- core : https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
 		<dependency>
@@ -114,27 +114,27 @@
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-config</artifactId>
 		    <version>4.2.3.RELEASE</version>
-		</dependency>	
+		</dependency>
 		<!-- tag : https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-taglibs</artifactId>
 		    <version>4.2.3.RELEASE</version>
-		</dependency>													
-			
-		<!-- Tiles -->	
+		</dependency>
+
+		<!-- Tiles -->
 		<!-- The complete Tiles dependency with all supported technologies is achievable with the following dependency declaration: -->
 		<dependency>
 		    <groupId>org.apache.tiles</groupId>
 		    <artifactId>tiles-extras</artifactId>
 		    <version>${tiles-version}</version>
-		</dependency>		 
+		</dependency>
 		<!-- The basic Tiles dependency with only servlet support can be added this way: -->
 		<dependency>
 		    <groupId>org.apache.tiles</groupId>
 		    <artifactId>tiles-servlet</artifactId>
 		    <version>${tiles-version}</version>
-		</dependency>		 
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-core -->
 		<dependency>
 		    <groupId>org.apache.tiles</groupId>
@@ -146,9 +146,9 @@
 		    <groupId>org.apache.tiles</groupId>
 		    <artifactId>tiles-jsp</artifactId>
 		    <version>${tiles-version}</version>
-		</dependency>		
+		</dependency>
 
-		<!-- Log4j2 -->		
+		<!-- Log4j2 -->
     	<!-- Binding for Log4J -->
 	    <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
 		<dependency>
@@ -157,19 +157,19 @@
 		    <version>2.12.1</version>
 		    <scope>test</scope>
 		</dependency>
- 
+
   		<!-- Log4j API and Core implementation required for binding -->
-		<dependency>		
+		<dependency>
 			<groupId>org.bgee.log4jdbc-log4j2</groupId>
 			<artifactId>log4jdbc-log4j2-jdbc4</artifactId>
 			<version>1.16</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 		    <groupId>org.apache.logging.log4j</groupId>
 		    <artifactId>log4j-core</artifactId>
 		    <version>2.9.1</version>
 		</dependency>
-		
+
 		<!-- JSON -->
 		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
 		<dependency>
@@ -177,7 +177,7 @@
 		    <artifactId>json-simple</artifactId>
 		    <version>1.1.1</version>
 		</dependency>
-				
+
 		<dependency>
 		    <groupId>com.fasterxml.jackson.core</groupId>
 		    <artifactId>jackson-core</artifactId>
@@ -192,8 +192,16 @@
 		    <groupId>com.fasterxml.jackson.core</groupId>
 		    <artifactId>jackson-databind</artifactId>
 		    <version>2.8.8</version>
-		</dependency>		
-		
+		</dependency>
+
+		<!-- Gson : JSON - VO 매핑 -->
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.8.4</version>
+		</dependency>
+
 		<!-- Mail SMTP 사용 -->
 		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
 		<dependency>
@@ -201,7 +209,7 @@
 		    <artifactId>mail</artifactId>
 		    <version>1.4</version>
 		</dependency>
-		
+
 		<!-- File upload -->
 		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 		<dependency>
@@ -209,13 +217,13 @@
             <artifactId>commons-fileupload</artifactId>
             <version>1.3.2</version>
         </dependency>
-         
+
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.5</version>
         </dependency>
-						
+
 		<!-- CKFinder 외부 Library -->
 		<dependency>
 			<groupId>CKFinder</groupId>
@@ -223,7 +231,7 @@
 			<version>2.6.3</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/ckfinder/CKFinder-2.6.3.jar</systemPath>
-		</dependency>			
+		</dependency>
 		<dependency>
 			<groupId>CKFinderPlugin</groupId>
 			<artifactId>CKFinderPlugin</artifactId>
@@ -252,14 +260,14 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/ckfinder/thumbnailator-0.4.8.jar</systemPath>
 		</dependency>
-							
+
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${org.aspectj-version}</version>
-		</dependency>	
-		
+		</dependency>
+
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -309,15 +317,15 @@
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
 		</dependency>
-			
-		<!-- Servlet -->	
+
+		<!-- Servlet -->
 		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 		<dependency>
 		    <groupId>javax.servlet</groupId>
 		    <artifactId>javax.servlet-api</artifactId>
 		    <version>${servlet-version}</version>
 		    <scope>provided</scope>
-		</dependency>		
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
 		<dependency>
 		    <groupId>javax.servlet.jsp</groupId>
@@ -325,7 +333,7 @@
 		    <version>${servlet.jsp-version}</version>
 		    <scope>provided</scope>
 		</dependency>
-				
+
 		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -339,24 +347,39 @@
 			<version>2.2</version>
 			<scope>provided</scope>
 		</dependency>
-				
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>${jstl-verision}</version>
 		</dependency>
-	
+
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
-		</dependency>        
-		
-		
+		</dependency>
+
+		<!-- Apache POI -->
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>4.1.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		    <version>4.1.2</version>
+		</dependency>
+
+
+
 	</dependencies>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -393,14 +416,14 @@
                     <mainClass>org.test.int1.Main</mainClass>
                 </configuration>
             </plugin>
-            <!-- Maven Encoding -->            
+            <!-- Maven Encoding -->
 			<plugin>
 		    	<groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-compiler-plugin</artifactId>
 			    <configuration>
 			    	<encoding>UTF-8</encoding>
 			    </configuration>
-			</plugin>			
+			</plugin>
         </plugins>
     </build>
 </project>
